@@ -55,8 +55,8 @@ function test_input( $trimm ) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div><em>Camagru</em></div>
     <div>
+        <div><em>Camagru</em></div>
         <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
             <div>
                 <input id="0e2" type="text" name="email" placeholder="Email" value="<?php echo $email; ?>" required>
