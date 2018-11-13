@@ -5,6 +5,7 @@ Class User {
     private $_pdo;
     private $_table = 'users';
 	private $_user = array();
+	private $_pass;
 
     public function __construct() {
         $this->_pdo = DB::$conn;
@@ -18,7 +19,12 @@ Class User {
 			foreach ( $allowed as $field ) {
 				if ( isset( $data[ $field ] ) ) {
 					$set .= "`" . str_replace( "`", "``", $field) . "`" . "=:$field, ";
-					$values[ $field ] = $data[ $field ];
+					if ( $field === 'password' ){
+						$values[ $field ] = password_hash( $data[ $field ], PASSWORD_DEFAULT );
+						$this->_pass = $data[ $field ];
+					}else {
+						$values[ $field ] = $data[ $field ];
+					}
 				}
 			}
 			$values[ 'token' ] = hash( 'sha256', $values[ 'email' ] );
@@ -29,18 +35,52 @@ Class User {
 			$set = substr( $set, 0, -2);
 			$stmt = $this->_pdo->prepare( "INSERT INTO $this->_table SET $set" );
 			$stmt->execute( $values );
-			self::verification();
+			self::send_verification();
 		}catch ( PDOException $e ) {
 			echo "Connection failed: " . $e->getMessage();
 		}
 	}
 
+	public function activate_user( array $data ) {
+		try {
+			$stmt = $this->_pdo->prepare( "SELECT * FROM $this->_table WHERE email = ? AND token = ?" );
+			$stmt->execute( [ $data[ 'email'], $data[ 'token'] ] );
+			$res = $stmt->fetchColumn();
+			if ( $res ) {
+				$sql = "UPDATE $this->_table SET verified = :verified WHERE email = :email AND token = :token";
+				$this->_pdo->prepare( $sql )->execute( $data );
+			}
+			else {
+				echo 'User not found';
+			}
+		}catch ( PDOException $e ) {
+			echo "Connection failed: " . $e->getMessage();
+		}
+	}
 
-    public function login ( $email, $username, $password ) {}
+	public function login ( array $data ) {
+		try {
+			//try adding a feature where user can input an email instead of a username
+			$stmt = $this->_pdo->prepare( "SELECT * FROM $this->_table WHERE username = ?" );
+			$stmt->execute( [ $data[ 'username' ] ] );
+			$res = $stmt->fetch();
+			if ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 1 ) {
+				echo 'Succefully logged in';
+			}
+			elseif ( $res[ 'verified' ] == 0 ) {
+				echo 'Please Check Email to Activate your account';
+			}else {
+				echo 'Invalid Password';
+			}
 
-    public function is_loggedin() {}
-
-	private function verification() {
+		}catch( PDOException $e ) {
+			echo "Connection failed: " . $e->getMessage();
+		}
+	}
+	
+	public function is_loggedin() {}
+	
+	private function send_verification() {
 		$Subject = 'Signup | Verification';
 		$Message = '
 
@@ -49,7 +89,7 @@ Your account has been created, you can login with the following credentials afte
 
 ---------------------------------------
 Username: ' . $this->_user[ 'username' ] . '
-Password: ' . $this->_user[ 'password' ] . '
+Password: ' . $this->_pass . '
 ---------------------------------------
 
 Please click the link to activate your account:
