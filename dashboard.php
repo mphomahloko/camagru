@@ -1,7 +1,7 @@
 <?php
 require_once 'config/database.php';
 $path = "";
-if ( isset( $_POST['submit'] ) ) {
+if ( isset( $_POST['s_img'] ) ) {
     $img = $_POST['photo'];
     $pic = explode(",",$img);
     if ( $img ){
@@ -32,7 +32,7 @@ if ( isset( $_POST['submit'] ) ) {
         <canvas id="canvas"></canvas><br>
     <form method = "POST">
         <input type="hidden" id = "picture" name = "photo">
-        <input type = "submit" name = "submit" value = "save image">
+        <input type = "submit" name = "s_img" value = "save image">
     </form>
     <script type="text/javascript" src="./cam.js"></script>
     <?php if ( $path )

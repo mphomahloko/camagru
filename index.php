@@ -1,33 +1,15 @@
 <?php
 require_once 'config/database.php';
 
-$name = $username = $fname = $lname = $email = $password = "";
+$username = $password = "";
 $errors = $data = array();
+
 if ( $_SERVER[ 'REQUEST_METHOD'] == 'POST' ) {
-    
     if ( empty( $_POST[ 'username' ] ) ) {
         $errors[] = "Can't leave Username field empty!";
     }else {
 		$username = test_input( $_POST[ 'username' ] );
         $data[ 'username' ] = $username;
-    }
-    if ( empty( $_POST[ 'fname' ] ) ) {
-        $errors[] = "Can't leave your first name field empty!";
-    }else {
-        $fname = test_input( $_POST[ 'fname' ] );
-        $data[ 'fname' ] = $fname;
-    }
-    if ( empty( $_POST[ 'lname' ] ) ) {
-        $errors[] = "Can't leave your last name field empty!";
-    }else {
-        $lname = test_input( $_POST[ 'lname' ] );
-        $data[ 'lname' ] = $lname;
-    }
-    if ( empty( $_POST[ 'email' ] ) ) {
-        $errors[] = "Can't leave the email field empty!";
-    }else {
-        $email = test_input( $_POST[ 'email' ] );
-        $data[ 'email' ] = $email;
     }
     if ( empty( $_POST[ 'passwrd' ] ) ) {
         $errors[] = "Can't leave Password field empty!";
@@ -36,7 +18,7 @@ if ( $_SERVER[ 'REQUEST_METHOD'] == 'POST' ) {
         $data[ 'password' ] = $password;
     }
     if ( empty( $errors ) ) {
-        $user->register( $data );
+        $user->login( $data );
     }
 }
 
@@ -55,34 +37,26 @@ function test_input( $trimm ) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        <div><em>Camagru</em></div>
+    <div class="wrapper">
+    <div class="box-content">
+        <div class="header"><em><h1>Camagru</h1></em></div>
         <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
-            <div>
-                <input id="0e2" type="text" name="email" placeholder="Email" value="<?php echo $email; ?>" required>
+            <div class="box1">
+                <input type="text" name="username" placeholder="Username" value="<?php echo $username; ?>" required class="input-1"/>
+            <div class="overlap-text">
+                <input type="password" placeholder="Password" name="passwrd" required class="input-2"/>
             </div>
-            <br />
-            <div>
-                <input id="01e2" type="text" name="fname" placeholder="FirstName" value="<?php echo $fname; ?>" required>
-            </div>
-            <br />
-            <div>
-                <input id="02be2" type="text" name="lname" placeholder="LastName" value="<?php echo $lname; ?>" required>
-            </div>
-            <br />
-            <div>
-                <input id="03be3" type="text" name="username" placeholder="Username" value="<?php echo $username; ?>" required>
-            </div>
-            <br />
-            <div>
-                <input id="03bz3" type="password" placeholder="Password" name="passwrd" required>
-            </div>
-            <br />
-            <div>
-            <input type="submit" name="submit" value="submit">
-                <br />
+                <input type="button" name="submit" value="Log in" class="btn1">
+                <div class="fpwd">
+                    <a href="#">forgot password ?</a>
+                </div>
+                <div class="col-xs-2 col-sm6">
+                <hr class="obm_hrOr">
+                <span class="spanOR"></span>
+                </div>
             </div>
         </form>
+        </div>
     </div>
 </body>
 </html>
