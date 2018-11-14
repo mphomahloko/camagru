@@ -9,7 +9,7 @@ require_once './User.class.php';
 
 $host = "localhost";
 $username = "root";
-$password = "123456";
+$password = "";
 $charset = 'utf8mb4';
 $db = "camagru";
 

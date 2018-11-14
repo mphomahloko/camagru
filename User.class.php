@@ -67,7 +67,7 @@ Class User {
 			if ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 1 ) {
 				echo 'Succefully logged in';
 			}
-			elseif ( $res[ 'verified' ] == 0 ) {
+			elseif ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 0 ) {
 				echo 'Please Check Email to Activate your account';
 			}else {
 				echo 'Invalid Password';
@@ -101,7 +101,9 @@ http://localhost:8080/camagru/verify.php?email=' . $this->_user[ 'email' ] . '&t
 		mail( $this->_user[ 'email' ], $Subject, $Message, $Headers );
 
 	}
-    public function redirect() {}
+    public static function redirect( $url ) {
+		header( 'location: $url' );
+	}
 
     public function logout() {}
 
