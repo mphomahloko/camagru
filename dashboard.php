@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Camagru</title>
     </head>
     <body>
         <video id="vid1" ></video><br>
