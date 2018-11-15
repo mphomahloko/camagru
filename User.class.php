@@ -55,6 +55,8 @@ Class User {
 			}
 		}catch ( PDOException $e ) {
 			echo "Connection failed: " . $e->getMessage();
+			//read up on this
+			
 		}
 	}
 

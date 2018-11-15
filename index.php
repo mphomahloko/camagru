@@ -37,26 +37,24 @@ function test_input( $trimm ) {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="wrapper">
-    <div class="box-content">
-        <div class="header"><em><h1>Camagru</h1></em></div>
+    <div class="box">
+    
+        <h1>Camagru</h1>
         <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
-            <div class="box1">
-                <input type="text" name="username" placeholder="Username" value="<?php echo $username; ?>" required class="input-1"/>
-            <div class="overlap-text">
-                <input type="password" placeholder="Password" name="passwrd" required class="input-2"/>
-            </div>
-                <input type="button" name="submit" value="Log in" class="btn1">
-                <div class="fpwd">
-                    <a href="#">forgot password ?</a>
+                <div class = "inputBox">
+                <input type="text" name="username" value="<?php echo $username; ?>" required="">
+                <label>Username: </label>
                 </div>
-                <div class="col-xs-2 col-sm6">
-                <hr class="obm_hrOr">
-                <span class="spanOR"></span>
+                <div class = "inputBox">
+                <input type="password"  name="passwrd" required="">
+                    <label>password: </label>
                 </div>
-            </div>
+                <div class = "inputBox">
+                <input type="submit" name="submit" value="Log in" requred="">
+                </div>
+                <a href="#">forgot password ?</a>
         </form>
-        </div>
+       
     </div>
 </body>
 </html>

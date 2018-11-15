@@ -1,8 +1,7 @@
 var video = document.getElementById('vid1');
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
-var photo = document.getElementById('picture');
-        
+
 let constraintObj = {
     audio : false,
     video : {
@@ -50,13 +49,20 @@ navigator.mediaDevices.getUserMedia( constraintObj ).then( function( mediaStream
 } );
 
 function snap() {
-
+    var but = document.getElementById('but');
+    but.setAttribute('type', 'submit');
     canvas.width = video.clientWidth;
     canvas.height = video.clientHeight;
     context.drawImage( video, 0, 0 );
-    var element = document.getElementById('picture');
-    var img = canvas.toDataURL('image/jpeg');
+}
+
+function draw(x) {
+    var image = document.getElementById(x);
+    context.drawImage(image, 0, 0, 70, 70);
+}
+
+function finalImage() {
+    var element = document.getElementById( 'picture' );
+    var img = canvas.toDataURL( 'image/jpeg' );
     element.setAttribute('value', img);
-    // console.log(img);
-    // document.getElementById('capture-form').submit(img);
 }
