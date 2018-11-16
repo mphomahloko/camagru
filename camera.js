@@ -1,7 +1,3 @@
-var video = document.getElementById('vid1');
-var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-
 let constraintObj = {
     audio : false,
     video : {
@@ -47,22 +43,3 @@ navigator.mediaDevices.getUserMedia( constraintObj ).then( function( mediaStream
 } ).catch( function( err ) {
     console.log( err.name, err.message );
 } );
-
-function snap() {
-    var but = document.getElementById('but');
-    but.setAttribute('type', 'submit');
-    canvas.width = video.clientWidth;
-    canvas.height = video.clientHeight;
-    context.drawImage( video, 0, 0 );
-}
-
-function draw(x) {
-    var image = document.getElementById(x);
-    context.drawImage(image, 0, 0, 70, 70);
-}
-
-function finalImage() {
-    var element = document.getElementById( 'picture' );
-    var img = canvas.toDataURL( 'image/jpeg' );
-    element.setAttribute('value', img);
-}
