@@ -101,7 +101,6 @@ http://localhost:8080/camagru/verify.php?email=' . $this->_user[ 'email' ] . '&t
 
 		$Headers = 'From:nonreply@localhost:8080/camagru' . "\r\n";
 		mail( $this->_user[ 'email' ], $Subject, $Message, $Headers );
-
 	}
     public static function redirect( $url ) {
 		header( 'location: $url' );
