@@ -1,3 +1,7 @@
+var video = document.getElementById('vid1');
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
 let constraintObj = {
     audio : false,
     video : {
@@ -43,3 +47,12 @@ navigator.mediaDevices.getUserMedia( constraintObj ).then( function( mediaStream
 } ).catch( function( err ) {
     console.log( err.name, err.message );
 } );
+
+//funtion to draw an image on the canvas once picture is taken
+function snap() {
+    var but = document.getElementById('but');
+    but.setAttribute('type', 'submit');
+    canvas.width = video.clientWidth;
+    canvas.height = video.clientHeight;
+    context.drawImage( video, 0, 0 );
+}

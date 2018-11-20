@@ -5,7 +5,7 @@ $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 // Check if image file is a actual image or fake image
-if( isset($_POST["submit"])) {
+if ( isset($_POST["submit"] ) ) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
         //echo "File is an image - " . $check["mime"] . ".";
@@ -56,21 +56,25 @@ if( isset($_POST["submit"])) {
     <title>Camagru</title>
 </head>
 <body>
-<canvas id="canvas" ></canvas><br/>
 <form action="Upload.php" method="post" enctype="multipart/form-data">
-    Select image to upload:
+    <p>Select image to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit" onclick="UpLoadedImg();">
+    <input type="submit" value="Upload Image" name="submit" onclick="UpLoadedImg();"></p>
 </form><br>
 <div>
-        <img id="st" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('st');">
-        <img id="st1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('st1');">
-        <img id="st2" src="./images/shocked.png" width="60" height="60" onclick="draw('st2');">
-        <img id="st3" src="./images/wink.png" width="60" height="60" onclick="draw('st3');">
-        <img id="st4" src="./images/shit.png" width="60" height="60" onclick="draw('st4');">
-        <img id="st5" src="./images/smile.png" width="60" height="60" onclick="draw('st5');">
+    <img id="st" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('st');">
+    <img id="st1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('st1');">
+    <img id="st2" src="./images/shocked.png" width="60" height="60" onclick="draw('st2');">
+    <img id="st3" src="./images/wink.png" width="60" height="60" onclick="draw('st3');">
+    <img id="st4" src="./images/shit.png" width="60" height="60" onclick="draw('st4');">
+    <img id="st5" src="./images/smile.png" width="60" height="60" onclick="draw('st5');">
 </div>
     <br>
+<canvas id="canvas" ></canvas><br/>
+<form method = "POST">
+    <input type="hidden" id="picture" name="photo">
+    <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
+</form><br/>
 <?php
 
     $folder = "uploads/";
@@ -86,6 +90,6 @@ if( isset($_POST["submit"])) {
     }
 ?>
 <script type="text/javascript" src="./upload.js"></script>
-<script type="text/javascript" src="./only.js"></script>
+<script type="text/javascript" src="./custom.js"></script>
 </body>
 </html>

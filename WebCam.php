@@ -46,6 +46,6 @@ if ( isset( $_POST['s_img'] ) ) {
         <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
     </form><br/>
     <script type="text/javascript" src="./camera.js"></script>
-    <script type="text/javascript" src="./only.js"></script>
+    <script type="text/javascript" src="./custom.js"></script>
     </body>
 </html>
