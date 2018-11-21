@@ -33,12 +33,12 @@ if ( isset( $_POST['s_img'] ) ) {
     <video id="vid1"></video><br/>
     <button onclick="snap();">Snap</button><br/>
     <div>
-        <img id="st" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('st');">
-        <img id="st1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('st1');">
-        <img id="st2" src="./images/shocked.png" width="60" height="60" onclick="draw('st2');">
-        <img id="st3" src="./images/wink.png" width="60" height="60" onclick="draw('st3');">
-        <img id="st4" src="./images/shit.png" width="60" height="60" onclick="draw('st4');">
-        <img id="st5" src="./images/smile.png" width="60" height="60" onclick="draw('st5');">
+        <img id="st" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('st', 500, 300);">
+        <img id="st1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('st1',0,0);">
+        <img id="st2" src="./images/shocked.png" width="60" height="60" onclick="draw('st2',0,0);">
+        <img id="st3" src="./images/wink.png" width="60" height="60" onclick="draw('st3',0,0);">
+        <img id="st4" src="./images/shit.png" width="60" height="60" onclick="draw('st4',0,0);">
+        <img id="st5" src="./images/smile.png" width="60" height="60" onclick="draw('st5',0,0);">
     </div>
     <canvas id="canvas" ></canvas><br/>
     <form method = "POST">

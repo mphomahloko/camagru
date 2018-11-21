@@ -6,6 +6,7 @@ $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 // Check if image file is a actual image or fake image
 if ( isset($_POST["submit"] ) ) {
+    unset($POST['submit']);
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
         //echo "File is an image - " . $check["mime"] . ".";
@@ -59,15 +60,15 @@ if ( isset($_POST["submit"] ) ) {
 <form action="Upload.php" method="post" enctype="multipart/form-data">
     <p>Select image to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit" onclick="UpLoadedImg();"></p>
+    <input type="submit" value="Upload Image" name="submit" ></p>
 </form><br>
 <div>
-    <img id="st" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('st');">
-    <img id="st1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('st1');">
-    <img id="st2" src="./images/shocked.png" width="60" height="60" onclick="draw('st2');">
-    <img id="st3" src="./images/wink.png" width="60" height="60" onclick="draw('st3');">
-    <img id="st4" src="./images/shit.png" width="60" height="60" onclick="draw('st4');">
-    <img id="st5" src="./images/smile.png" width="60" height="60" onclick="draw('st5');">
+    <img id="stk" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('stk');">
+    <img id="stk1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('stk1');">
+    <img id="stk2" src="./images/shocked.png" width="60" height="60" onclick="draw('stk2');">
+    <img id="stk3" src="./images/wink.png" width="60" height="60" onclick="draw('stk3');">
+    <img id="stk4" src="./images/shit.png" width="60" height="60" onclick="draw('stk4');">
+    <img id="stk5" src="./images/smile.png" width="60" height="60" onclick="draw('stk5');">
 </div>
     <br>
 <canvas id="canvas" ></canvas><br/>
@@ -75,6 +76,8 @@ if ( isset($_POST["submit"] ) ) {
     <input type="hidden" id="picture" name="photo">
     <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
 </form><br/>
+<script type="text/javascript" src="./upload.js"></script>
+<script type="text/javascript" src="./custom.js"></script>
 <?php
 
     $folder = "uploads/";
@@ -89,7 +92,5 @@ if ( isset($_POST["submit"] ) ) {
         }
     }
 ?>
-<script type="text/javascript" src="./upload.js"></script>
-<script type="text/javascript" src="./custom.js"></script>
 </body>
 </html>

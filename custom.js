@@ -1,8 +1,9 @@
-
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
 //function that enable a draws a sticker onto the canvas
-function draw(x) {
+function draw(x, dx, dy) {
     var image = document.getElementById(x);
-    context.drawImage(image, 0, 0, 70, 70);
+    ctx.drawImage(image, dx, dy, 70, 70);
 }
 
 //function creates the image
