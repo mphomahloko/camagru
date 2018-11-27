@@ -22,6 +22,11 @@ try {
         `token` VARCHAR(255) NOT NULL ,
         `verified` INT(2) NOT NULL
         );" );
+    $dbh->exec( "CREATE TABLE IF NOT EXISTS `camagru`.`gallery` ( 
+        `user_Id` INT(255) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+        `username` VARCHAR(30) NOT NULL ,
+        `path` VARCHAR(20) NOT NULL
+        );" );
 }catch( PDOException $e ) {
     echo "Connection failed: " . $e->getMessage();
 }
