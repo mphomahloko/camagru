@@ -1,6 +1,6 @@
 <?php
 require_once 'config/database.php';
-
+session_start();
 $path = "";
 if ( isset( $_POST['s_img'] ) ) {
     $img = $_POST['photo'];
@@ -13,16 +13,21 @@ if ( isset( $_POST['s_img'] ) ) {
             mkdir($imageDir);
         file_put_contents($imageDir . $image_id . '.jpeg', $mg);
         $path = "images/" . $image_id .".jpeg";
-        //$sql = $db->prepare("INSERT INTO
-        //save the path of the image in the database
+        try {
+            $sql = "INSERT INTO gallery (`username`, `path`)  VALUES (?,?)";
+            $db = DB::getInstance();
+            $stmt = $db->connection()->prepare( $sql );
+            $stmt->execute([ $_SESSION[ 'username' ], $path ]);
+        } catch ( PDOException $e ) {
+            die( $e->getMessage() );
+        }
     }
     else {
-        echo 'Failed to take picture';
+        die('Failed to take picture');
     }
 }
 
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>

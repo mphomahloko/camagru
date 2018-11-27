@@ -60,15 +60,12 @@ Class User {
 
 	public function login ( array $data ) {
 		try {
-			//try adding a feature where user can input an email instead of a username
 			$stmt = $this->_instance->connection()->prepare( "SELECT * FROM $this->_table WHERE username = ?" );
 			$stmt->execute( [ $data[ 'username' ] ] );
 			$res = $stmt->fetch();
-			// echo '<pre>';
-			// var_dump( $res );
-			// echo '</pre>';
-			// die();
 			if ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 1 ) {
+				session_start();
+				$_SESSION[ 'username' ] = $data[ 'username' ];
 				self::redirect( 'dashboard.php' );
 			}
 			elseif ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 0 ) {
