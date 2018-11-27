@@ -1,6 +1,3 @@
-<?
-    require_once 'config/database.php';
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +7,6 @@
     <title>Camagru</title>
 </head>
 <body>
-    <?php require('header.php');?>
+    
 </body>
 </html>

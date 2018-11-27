@@ -7,5 +7,5 @@ if ( isset( $_GET[ 'token' ] ) && isset( $_GET[ 'email' ]) ){
     $data[ 'verified' ] = 1;
     $user->activate_user( $data );
 }
-
+$user->redirect( 'index.php' );
 ?>

@@ -57,6 +57,7 @@ if ( isset($_POST["submit"] ) ) {
     <title>Camagru</title>
 </head>
 <body>
+<?php require('header.php');?>
 <form action="Upload.php" method="post" enctype="multipart/form-data">
     <p>Select image to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">

@@ -1,19 +1,26 @@
 <?php
+
 Class DB {
-    public static $conn;
+    private static $_instance = null;
+    private $_pdo;
 
-    public function __construct( $dsn, $user, $pass,  array $options ) {
+    private function __construct() {
         try {
-            self::$conn = new PDO( $dsn, $user, $pass, $options );
-       } catch ( PDOException $e ) {
-        echo "Connection failed: " . $e->getMessage();
-       }
-    }
-    
-    public function __destruct() {
-		self::$conn = null;
+            $this->_pdo = new PDO( "mysql:host=localhost;dbname=camagru;charset=utf8mb4", 'root', '123456', [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ] );
+        } catch(PDOException $e) {
+            die( $e->getMessage() );
+        }
     }
 
+    public static function getInstance() {
+        if ( !isset( self::$_instance ) ) {
+            self::$_instance = new DB();
+        }
+        return self::$_instance;
+    }
+
+    public function connection() {
+        return $this->_pdo;
+    }
 }
-
-?>

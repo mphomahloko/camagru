@@ -2,13 +2,13 @@
 
 Class User {
 
-    private $_pdo;
+    private $_instance;
     private $_table = 'users';
 	private $_user = array();
 	private $_pass;
 
     public function __construct() {
-        $this->_pdo = DB::$conn;
+		$this->_instance = DB::getInstance();
     }
 
     public function register( array $data ) {
@@ -33,41 +33,43 @@ Class User {
 			$set .= "`" . str_replace( "`", "``", 'verified') . "`" . "=:verified, ";
 			$this->_user = $values;
 			$set = substr( $set, 0, -2);
-			$stmt = $this->_pdo->prepare( "INSERT INTO $this->_table SET $set" );
+			$stmt = $this->_instance->connection()->prepare( "INSERT INTO $this->_table SET $set" );
 			$stmt->execute( $values );
 			self::send_verification();
 		}catch ( PDOException $e ) {
-			echo "Connection failed: " . $e->getMessage();
+			die( $e->getMessage() );
 		}
 	}
 
 	public function activate_user( array $data ) {
 		try {
-			$stmt = $this->_pdo->prepare( "SELECT * FROM $this->_table WHERE email = ? AND token = ?" );
+			$stmt = $this->_instance->connection()->prepare( "SELECT * FROM $this->_table WHERE email = ? AND token = ?" );
 			$stmt->execute( [ $data[ 'email'], $data[ 'token'] ] );
 			$res = $stmt->fetchColumn();
 			if ( $res ) {
 				$sql = "UPDATE $this->_table SET verified = :verified WHERE email = :email AND token = :token";
-				$this->_pdo->prepare( $sql )->execute( $data );
+				$this->_instance->connection()->prepare( $sql )->execute( $data );
 			}
 			else {
 				echo 'User not found';
 			}
 		}catch ( PDOException $e ) {
-			echo "Connection failed: " . $e->getMessage();
-			//read up on this
-			
+			die ( $e->getMessage() );
 		}
 	}
 
 	public function login ( array $data ) {
 		try {
 			//try adding a feature where user can input an email instead of a username
-			$stmt = $this->_pdo->prepare( "SELECT * FROM $this->_table WHERE username = ?" );
+			$stmt = $this->_instance->connection()->prepare( "SELECT * FROM $this->_table WHERE username = ?" );
 			$stmt->execute( [ $data[ 'username' ] ] );
 			$res = $stmt->fetch();
+			// echo '<pre>';
+			// var_dump( $res );
+			// echo '</pre>';
+			// die();
 			if ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 1 ) {
-				echo 'Succefully logged in';
+				self::redirect( 'dashboard.php' );
 			}
 			elseif ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 0 ) {
 				echo 'Please Check Email to Activate your account';
@@ -103,7 +105,7 @@ http://localhost:8080/camagru/verify.php?email=' . $this->_user[ 'email' ] . '&t
 		mail( $this->_user[ 'email' ], $Subject, $Message, $Headers );
 	}
     public static function redirect( $url ) {
-		header( 'location: $url' );
+		header( 'location: ' . $url );
 	}
 
     public function logout() {}

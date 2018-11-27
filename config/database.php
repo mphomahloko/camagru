@@ -19,7 +19,6 @@ $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 ];
 
-$pdo = new DB( $dsn, $username, $password, $options );
 $user = new User();
 
 ?>

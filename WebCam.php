@@ -30,6 +30,7 @@ if ( isset( $_POST['s_img'] ) ) {
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+    <?php require('header.php');?>
     <video id="vid1"></video><br/>
     <button onclick="snap();">Snap</button><br/>
     <div>
