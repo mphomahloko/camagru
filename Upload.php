@@ -77,8 +77,6 @@ if ( isset($_POST["submit"] ) ) {
     <input type="hidden" id="picture" name="photo">
     <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
 </form><br/>
-<script type="text/javascript" src="./upload.js"></script>
-<script type="text/javascript" src="./custom.js"></script>
 <?php
 
     $folder = "uploads/";
@@ -93,5 +91,7 @@ if ( isset($_POST["submit"] ) ) {
         }
     }
 ?>
-</body>
-</html>
+<br>
+<script type="text/javascript" src="./upload.js"></script>
+<script type="text/javascript" src="./custom.js"></script>
+<?php require('footer.php');?>

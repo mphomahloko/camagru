@@ -78,9 +78,9 @@ Class User {
 			echo "Connection failed: " . $e->getMessage();
 		}
 	}
-	
+	//verifyong if the user is logged in or not
 	public function is_loggedin() {}
-	
+	//Have a class that handels the email notifications
 	private function send_verification() {
 		$Subject = 'Signup | Verification';
 		$Message = '
@@ -104,7 +104,7 @@ http://localhost:8080/camagru/verify.php?email=' . $this->_user[ 'email' ] . '&t
     public static function redirect( $url ) {
 		header( 'location: ' . $url );
 	}
-
+	//Modify the logout functionality
     public function logout() {}
 
 }

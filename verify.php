@@ -9,3 +9,4 @@ if ( isset( $_GET[ 'token' ] ) && isset( $_GET[ 'email' ]) ){
 }
 $user->redirect( 'index.php' );
 ?>
+<?php require('footer.php');?>

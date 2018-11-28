@@ -8,9 +8,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css" />
     <script src="main.js"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Camagru</h1>
-    </div>
-</body>
-</html>
+    <body>
+        <?php require('header.php');?>
+
+        <?php require('footer.php');?>
