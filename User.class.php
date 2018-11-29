@@ -4,8 +4,7 @@ Class User {
 
     private $_instance;
     private $_table = 'users';
-	private $_user = array();
-	private $_pass;
+	public $errMsg;
 
     public function __construct() {
 		$this->_instance = DB::getInstance();
@@ -19,30 +18,42 @@ Class User {
 			foreach ( $allowed as $field ) {
 				if ( isset( $data[ $field ] ) ) {
 					$set .= "`" . str_replace( "`", "``", $field) . "`" . "=:$field, ";
-					if ( $field === 'password' ){
+					if ( $field === 'password' ) {
 						$values[ $field ] = password_hash( $data[ $field ], PASSWORD_DEFAULT );
-						$this->_pass = $data[ $field ];
-					}else {
+					} else {
 						$values[ $field ] = $data[ $field ];
 					}
 				}
 			}
-			$values[ 'token' ] = hash( 'sha256', $values[ 'email' ] );
+			$values[ 'token' ] = hash( 'sha256', $values[ 'email' ] ) . bin2hex( random_bytes(4) );
 			$set .= "`" . str_replace( "`", "``", 'token') . "`" . "=:token, ";
 			$values[ 'verified' ] = 0;
 			$set .= "`" . str_replace( "`", "``", 'verified') . "`" . "=:verified, ";
-			$this->_user = $values;
 			$set = substr( $set, 0, -2);
 			$stmt = $this->_instance->connection()->prepare( "INSERT INTO $this->_table SET $set" );
 			$stmt->execute( $values );
-			self::send_verification();
-		}catch ( PDOException $e ) {
+			self::verify( $values[ 'email' ], $values[ 'token' ] );
+		} catch ( PDOException $e ) {
 			die( $e->getMessage() );
 		}
 	}
 
-	public function activate_user( array $data ) {
+	private function getUser( $username ) {
+		//to be modified to work with email and username
 		try {
+			$sql = "SELECT * FROM `users` WHERE `username` = ?";
+			$query = $this->_instance->connection()->prepare( $sql );
+			$query->execute( [ $username ] );
+			$user = $query->fetch();
+		} catch ( PDOException $e ) {
+			die( $e->getMessage() );
+		}
+		return $user;
+	}
+
+	public function confirmUser( array $data ) {
+		try {
+			//modify to be able to get user properly
 			$stmt = $this->_instance->connection()->prepare( "SELECT * FROM $this->_table WHERE email = ? AND token = ?" );
 			$stmt->execute( [ $data[ 'email'], $data[ 'token'] ] );
 			$res = $stmt->fetchColumn();
@@ -53,7 +64,7 @@ Class User {
 			else {
 				echo 'User not found';
 			}
-		}catch ( PDOException $e ) {
+		} catch ( PDOException $e ) {
 			die ( $e->getMessage() );
 		}
 	}
@@ -75,38 +86,34 @@ Class User {
 			}
 
 		}catch( PDOException $e ) {
-			echo "Connection failed: " . $e->getMessage();
+			die( $e->getMessage() );
 		}
 	}
-	//verifyong if the user is logged in or not
-	public function is_loggedin() {}
-	//Have a class that handels the email notifications
-	private function send_verification() {
-		$Subject = 'Signup | Verification';
-		$Message = '
 
-Thanks for signing up!
-Your account has been created, you can login with the following credentials after you have activated your account by clicking the url below.
-
----------------------------------------
-Username: ' . $this->_user[ 'username' ] . '
-Password: ' . $this->_pass . '
----------------------------------------
-
-Please click the link to activate your account:
-http://localhost:8080/camagru/verify.php?email=' . $this->_user[ 'email' ] . '&token=' . $this->_user[ 'token' ] .'
-
-';
-
-		$Headers = 'From:nonreply@localhost:8080/camagru' . "\r\n";
-		mail( $this->_user[ 'email' ], $Subject, $Message, $Headers );
+	public function sendPassword( $username ) {
+		$this->errMsg = '';
+		$user = self::getUser( $username );
+		if ( !$user )
+			return $this->errMsg = 'User does not exist';
+		$query = $this->_instance->connection()->prepare( "UPDATE `users` SET `token` = ? WHERE `username` = ?" );
+		$query->execute( [ hash( 'sha256', $user[ 'email' ] ) . bin2hex( random_bytes(4) ), $username ] );
+		require_once 'SendMail.class.php';
+		SendMail::resetPassword( $user[ 'email' ], $user[ 'token' ] );
 	}
+
     public static function redirect( $url ) {
 		header( 'location: ' . $url );
 	}
-	//Modify the logout functionality
-    public function logout() {}
 
+	//verifying if the user is logged in or not
+	public function is_loggedin() {
+
+	}
+	
+	//Modify the logout functionality
+    public function logout() {
+
+	}
 }
 
 ?>
