@@ -36,25 +36,24 @@ function test_input( $trimm ) {
     <title>Camagru</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="box">
-    
-        <h1>Camagru</h1>
-        <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
-                <div class = "inputBox">
-                <input type="text" name="username" value="<?php echo $username; ?>" required="">
-                <label>Username: </label>
-                </div>
-                <div class = "inputBox">
-                <input type="password"  name="passwrd" required="">
-                    <label>password: </label>
-                </div>
-                <div class = "inputBox">
-                <input type="submit" name="submit" value="Log in" requred="">
-                </div>
-                <a href="#">forgot password ?</a>
-        </form>
-       
-    </div>
-</body>
-</html>
+    <body>
+        <div class="box">
+        
+            <h1>Camagru</h1>
+            <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
+                    <div class = "inputBox">
+                        <input type="text" name="username" value="<?php echo $username; ?>" required="">
+                        <label>Username: </label>
+                    </div>
+                    <div class = "inputBox">
+                        <input type="password"  name="passwrd" required="">
+                        <label>password: </label>
+                    </div>
+                    <div class = "inputBox">
+                        <input type="submit" name="submit" value="Log in" requred="">
+                    </div>
+                    <a href="forgot.php">forgot password ?</a>
+            </form>
+        
+        </div>
+        <?php require('footer.php');?>
