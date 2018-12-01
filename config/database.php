@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 require_once './DB.class.php';
 require_once './User.class.php';
+require_once __DIR__ . '/../Application.class.php';
 
 $host = "localhost";
 $username = "root";
@@ -20,5 +21,7 @@ $options = [
 ];
 
 $user = new User();
+
+$w = new Application();
 
 ?>

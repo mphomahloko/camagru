@@ -95,12 +95,33 @@ Class User {
 		$user = self::getUser( $username );
 		if ( !$user )
 			return $this->errMsg = 'User does not exist';
-		$query = $this->_instance->connection()->prepare( "UPDATE `users` SET `token` = ? WHERE `username` = ?" );
-		$query->execute( [ hash( 'sha256', $user[ 'email' ] ) . bin2hex( random_bytes(4) ), $username ] );
+		try {
+			$query = $this->_instance->connection()->prepare( "UPDATE `users` SET `token` = ? WHERE `username` = ?" );
+			$query->execute( [ hash( 'sha256', $user[ 'email' ] ) . bin2hex( random_bytes(4) ), $username ] );
+		} catch ( PDOException $e ) {
+			die( $e->getMessage() );
+		}
 		require_once 'SendMail.class.php';
 		SendMail::resetPassword( $user[ 'email' ], $user[ 'token' ] );
 	}
 
+	public function updateProfile( $username, $password, $field, $value ) {
+		$this->errMsg = '';
+		$user = self::getUser( $username );
+		if ( password_verify( $password, $user[ 'password' ] ) ) {
+			if ( $field == 'username' ) {
+				$new_username = self::getUser( $value );
+				if ( $new_username[ 'username' ] == $username ) return ;
+				if ( $new_username ) return $this->errMsg = 'Username already in use';
+			}
+			try {
+				$query = $this->_instance->connection()->prepare( "UPDATE `users` SET `{$field}` = ? WHERE `username` = ?" );
+				$query->execute( [ $value, $username ] );
+			} catch ( PDOException $e ) {
+				die( $e->getMessage() );
+			}
+		} else return $this->errMsg = 'Invalid Password';
+	}
     public static function redirect( $url ) {
 		header( 'location: ' . $url );
 	}

@@ -48,41 +48,34 @@ function test_input( $trimm ) {
 }
 
 ?>
-<!Doctype html>
-<html>
-<head>
-    <title>Camagru</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div>
-        <div><em>Camagru</em></div>
-        <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
-            <div>
-                <input id="0e2" type="text" name="email" placeholder="Email" value="<?php echo $email; ?>" required>
-            </div>
-            <br />
-            <div>
-                <input id="01e2" type="text" name="fname" placeholder="FirstName" value="<?php echo $fname; ?>" required>
-            </div>
-            <br />
-            <div>
-                <input id="02be2" type="text" name="lname" placeholder="LastName" value="<?php echo $lname; ?>" required>
-            </div>
-            <br />
-            <div>
-                <input id="03be3" type="text" name="username" placeholder="Username" value="<?php echo $username; ?>" required>
-            </div>
-            <br />
-            <div>
-                <input id="03bz3" type="password" placeholder="Password" name="passwrd" required>
-            </div>
-            <br />
-            <div>
-            <input type="submit" name="submit" value="submit">
+<?php require('header.php');?>
+        <div>
+            <div><em>Camagru</em></div>
+            <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
+                <div>
+                    <input id="0e2" type="text" name="email" placeholder="Email" value="<?php echo $email; ?>" required>
+                </div>
                 <br />
-            </div>
-        </form>
-    </div>
-</body>
-</html>
+                <div>
+                    <input id="01e2" type="text" name="fname" placeholder="FirstName" value="<?php echo $fname; ?>" required>
+                </div>
+                <br />
+                <div>
+                    <input id="02be2" type="text" name="lname" placeholder="LastName" value="<?php echo $lname; ?>" required>
+                </div>
+                <br />
+                <div>
+                    <input id="03be3" type="text" name="username" placeholder="Username" value="<?php echo $username; ?>" required>
+                </div>
+                <br />
+                <div>
+                    <input id="03bz3" type="password" placeholder="Password" name="passwrd" required>
+                </div>
+                <br />
+                <div>
+                <input type="submit" name="submit" value="submit">
+                    <br />
+                </div>
+            </form>
+        </div>
+<?php require('footer.php');?>

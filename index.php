@@ -30,15 +30,8 @@ function test_input( $trimm ) {
 }
 
 ?>
-<!Doctype html>
-<html>
-<head>
-    <title>Camagru</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-    <body>
-        <div class="box">
-        
+<?php require('header.php');?>
+        <div class="box">    
             <h1>Camagru</h1>
             <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
                     <div class = "inputBox">
@@ -47,13 +40,12 @@ function test_input( $trimm ) {
                     </div>
                     <div class = "inputBox">
                         <input type="password"  name="passwrd" required="">
-                        <label>password: </label>
+                        <label>Password: </label>
                     </div>
                     <div class = "inputBox">
                         <input type="submit" name="submit" value="Log in" requred="">
                     </div>
                     <a href="forgot.php">forgot password ?</a>
             </form>
-        
         </div>
-        <?php require('footer.php');?>
+<?php require('footer.php');?>

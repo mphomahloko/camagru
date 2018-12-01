@@ -47,53 +47,41 @@ if ( isset($_POST["submit"] ) ) {
 }
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Camagru</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css"/>
-    <script src="main.js"></script>
-</head>
-<body>
 <?php require('header.php');?>
-<form action="Upload.php" method="post" enctype="multipart/form-data">
-    <p>Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit" ></p>
-</form><br>
-<div>
-    <img id="stk" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('stk');">
-    <img id="stk1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('stk1');">
-    <img id="stk2" src="./images/shocked.png" width="60" height="60" onclick="draw('stk2');">
-    <img id="stk3" src="./images/wink.png" width="60" height="60" onclick="draw('stk3');">
-    <img id="stk4" src="./images/shit.png" width="60" height="60" onclick="draw('stk4');">
-    <img id="stk5" src="./images/smile.png" width="60" height="60" onclick="draw('stk5');">
-</div>
-    <br>
-<canvas id="canvas" ></canvas><br/>
-<form method = "POST">
-    <input type="hidden" id="picture" name="photo">
-    <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
-</form><br/>
-<?php
+    <form action="Upload.php" method="post" enctype="multipart/form-data">
+        <p>Select image to upload:
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" value="Upload Image" name="submit" ></p>
+    </form><br />
+    <div>
+        <img id="stk" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('stk');">
+        <img id="stk1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('stk1');">
+        <img id="stk2" src="./images/shocked.png" width="60" height="60" onclick="draw('stk2');">
+        <img id="stk3" src="./images/wink.png" width="60" height="60" onclick="draw('stk3');">
+        <img id="stk4" src="./images/shit.png" width="60" height="60" onclick="draw('stk4');">
+        <img id="stk5" src="./images/smile.png" width="60" height="60" onclick="draw('stk5');">
+    </div>
+        <br>
+    <canvas id="canvas" ></canvas><br/>
+    <form method = "POST">
+        <input type="hidden" id="picture" name="photo">
+        <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
+    </form><br />
+    <?php
 
-    $folder = "uploads/";
+        $folder = "uploads/";
 
-    if ( is_dir( $folder ) ) {
-        if ( $open = opendir( $folder ) ) {
-            while ( ( $file = readdir( $open ) ) != false ) {
-                if ( $file == '.' || $file == '..' ) continue;
-                echo '<img style="display: none;" id="imgUpload" src="' . $folder . $file . '" width="150" height=150 ><br>';
+        if ( is_dir( $folder ) ) {
+            if ( $open = opendir( $folder ) ) {
+                while ( ( $file = readdir( $open ) ) != false ) {
+                    if ( $file == '.' || $file == '..' ) continue;
+                    echo '<img style="display: none;" id="imgUpload" src="' . $folder . $file . '" width="150" height=150 ><br>';
+                }
+                closedir( $open );
             }
-            closedir( $open );
         }
-    }
-?>
-<br>
-<script type="text/javascript" src="./upload.js"></script>
-<script type="text/javascript" src="./custom.js"></script>
+    ?>
+    <br />
+    <script type="text/javascript" src="./upload.js"></script>
+    <script type="text/javascript" src="./custom.js"></script>
 <?php require('footer.php');?>
