@@ -20,12 +20,14 @@ try {
         `email` VARCHAR(40) NOT NULL ,
         `password` VARCHAR(1000) NOT NULL ,
         `token` VARCHAR(255) NOT NULL ,
-        `verified` INT(2) NOT NULL
+        `verified` INT(2) NOT NULL DEFAULT 0,
+        `notifications` TINYINT(2) NOT NULL DEFAULT 1
         );" );
     $dbh->exec( "CREATE TABLE IF NOT EXISTS `camagru`.`gallery` ( 
         `user_Id` INT(255) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
         `username` VARCHAR(30) NOT NULL ,
-        `path` VARCHAR(255) NOT NULL
+        `path` VARCHAR(255) NOT NULL,
+        `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         );" );
 }catch( PDOException $e ) {
     echo "Connection failed: " . $e->getMessage();

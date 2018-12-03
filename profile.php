@@ -27,14 +27,15 @@
 <?php
         require_once 'config/database.php';
         if ( $_SERVER[ 'REQUEST_METHOD'] == 'POST' )
-           if ( htmlentities( $_POST[ 'updateProfile' ] ) == 'Update Field(s)' ) {
-                   session_start();
-                   if ( !empty( $_POST[ 'username' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'username', htmlentities( $_POST[ 'username' ] ) );
-                   if ( !empty( $_POST[ 'email' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'email', htmlentities( $_POST[ 'email' ] ) );
-                   if ( !empty( $_POST[ 'fname' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'fname', htmlentities( $_POST[ 'fname' ] ) );
-                   if ( !empty( $_POST[ 'lname' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'lname', htmlentities( $_POST[ 'lname' ] ) );
-                   if ( !empty( $_POST[ 'new_pass' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'password', htmlentities( $_POST[ 'new_pass' ] ) );
-                   if ( $user->errMsg )
+            if ( isset( $_POST[ 'updateProfile' ] ) )
+                if ( htmlentities( $_POST[ 'updateProfile' ] ) == 'Update Field(s)' ) {
+                    session_start();
+                    if ( !empty( $_POST[ 'username' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'username', htmlentities( $_POST[ 'username' ] ) );
+                    if ( !empty( $_POST[ 'email' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'email', htmlentities( $_POST[ 'email' ] ) );
+                    if ( !empty( $_POST[ 'fname' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'fname', htmlentities( $_POST[ 'fname' ] ) );
+                    if ( !empty( $_POST[ 'lname' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'lname', htmlentities( $_POST[ 'lname' ] ) );
+                    if ( !empty( $_POST[ 'new_pass' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], htmlentities( $_POST[ 'password' ] ), 'password', htmlentities( $_POST[ 'new_pass' ] ) );
+                    if ( $user->errMsg )
                         echo '<p style="color:red;">' . $user->errMsg . '</p>';
            }
 ?>

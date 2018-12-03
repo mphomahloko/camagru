@@ -44,6 +44,6 @@ if ( isset( $_POST['s_img'] ) ) {
         <input type="hidden" id="picture" name="photo">
         <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
     </form><br/>
-    <script type="text/javascript" src="./camera.js"></script>
-    <script type="text/javascript" src="./custom.js"></script>
+    <script type="text/javascript" src="js/camera.js"></script>
+    <script type="text/javascript" src="js/custom.js"></script><br/>
 <?php require('footer.php');?>

@@ -1,6 +1,86 @@
-body {
+html, body {
     background-color: #d9d9d9;
     font-family: monospace;
+    height: 100%;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #808080;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+}
+
+.container{
+    margin: 0% auto;
+    height: 90%;
+    width: 90%;
+}
+
+.pagination {
+    margin: 0% auto;
+    height: 30px;
+    text-align: center;
+}
+
+.pagination a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagination a.active {
+    background-color: #333333;
+    color: #777;
+}
+
+.pagination a:hover:not( .active ) {
+    background-color: #737373;
+}
+
+.gallery {
+    display: block;
+    margin: 0% auto;
+    border: 2px solid #ccc;
+    float: left;
+    width: 30%;
+    position: center;
+}
+
+hr {
+    clear: both;
+}
+
+.gallery:hover {
+    border: 2px solid #777;
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+}
+
+.desc {
+    padding: 25px;
+    text-align: center;
+
 }
 
 .butt1 {
@@ -10,6 +90,7 @@ body {
 #canvas {
     border-style: dashed;
 }
+
 .box {
 
     position: absolute;
@@ -33,7 +114,6 @@ body {
 }
 
 .box .inputBox {
-
     position: relative;
 }
 
@@ -68,8 +148,7 @@ body {
     font-size: 10px;
 }
 
-.box input[type=
-"submit"]
+.box input[type="submit"]
 {
     background: transparent;
     border: none;
@@ -78,4 +157,14 @@ body {
     background: skyblue;
     padding: 10px 20px;
     opacity: 0.5;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333333;
+    color: white;
+    text-align: center;
 }

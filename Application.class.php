@@ -16,12 +16,12 @@ Class   Application {
         }       
     }*/
     private function unregister_globals(){
-        if(ini_get('register_globals')){
+        if( ini_get('register_globals') ){
             $globalsAry = ['_SESSION', '_COOKIE', '_POST', '_GET','_REQUEST', '_SERVER', '_ENV', '_FILES'];
-            foreach($globalsAry as $global) {
-                foreach ($GLOBALS[$global] as $key => $value) {
-                    if ($GLOBALS[$key] === $value)
-                    unset($GLOBALS[$key]);
+            foreach( $globalsAry as $global ) {
+                foreach ( $GLOBALS[ $global ] as $key => $value ) {
+                    if ($GLOBALS[ $key ] === $value)
+                    unset($GLOBALS[ $key ]);
                 }
             }
         }

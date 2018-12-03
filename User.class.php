@@ -27,12 +27,11 @@ Class User {
 			}
 			$values[ 'token' ] = hash( 'sha256', $values[ 'email' ] ) . bin2hex( random_bytes(4) );
 			$set .= "`" . str_replace( "`", "``", 'token') . "`" . "=:token, ";
-			$values[ 'verified' ] = 0;
-			$set .= "`" . str_replace( "`", "``", 'verified') . "`" . "=:verified, ";
 			$set = substr( $set, 0, -2);
 			$stmt = $this->_instance->connection()->prepare( "INSERT INTO $this->_table SET $set" );
 			$stmt->execute( $values );
-			self::verify( $values[ 'email' ], $values[ 'token' ] );
+			require_once 'SendMail.class.php';
+			SendMail::verify( $values[ 'email' ], $values[ 'token' ] );
 		} catch ( PDOException $e ) {
 			die( $e->getMessage() );
 		}
@@ -69,7 +68,7 @@ Class User {
 		}
 	}
 
-	public function login ( array $data ) {
+	public function login( array $data ) {
 		try {
 			$stmt = $this->_instance->connection()->prepare( "SELECT * FROM $this->_table WHERE username = ?" );
 			$stmt->execute( [ $data[ 'username' ] ] );
@@ -107,20 +106,26 @@ Class User {
 
 	public function updateProfile( $username, $password, $field, $value ) {
 		$this->errMsg = '';
-		$user = self::getUser( $username );
+		$user = self::getUser( $username ); 
+		if ( !$user ) return $this->errMsg = 'No such user was found';
 		if ( password_verify( $password, $user[ 'password' ] ) ) {
 			if ( $field == 'username' ) {
 				$new_username = self::getUser( $value );
 				if ( $new_username[ 'username' ] == $username ) return ;
 				if ( $new_username ) return $this->errMsg = 'Username already in use';
+				$query = $this->_instance->connection()->prepare( "UPDATE `gallery` SET `{$field}` = ? WHERE `username` = ?" );
+				$query->execute( [ $value, $username ] );
 			}
 			try {
 				$query = $this->_instance->connection()->prepare( "UPDATE `users` SET `{$field}` = ? WHERE `username` = ?" );
 				$query->execute( [ $value, $username ] );
+				$_SESSION[ 'username' ] = $value;
 			} catch ( PDOException $e ) {
 				die( $e->getMessage() );
 			}
-		} else return $this->errMsg = 'Invalid Password';
+		} else {
+			return $this->errMsg = 'Invalid Password';
+		}
 	}
     public static function redirect( $url ) {
 		header( 'location: ' . $url );

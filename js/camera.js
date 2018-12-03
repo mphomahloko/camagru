@@ -50,8 +50,8 @@ navigator.mediaDevices.getUserMedia( constraintObj ).then( function( mediaStream
 
 //funtion to draw an image on the canvas once picture is taken
 function snap() {
-    var but = document.getElementById('but');
-    but.setAttribute('type', 'submit');
+    var but = document.getElementById( 'but' );
+    but.setAttribute( 'type', 'submit' );
     canvas.width = video.clientWidth;
     canvas.height = video.clientHeight;
     context.drawImage( video, 0, 0 );
