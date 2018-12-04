@@ -25,15 +25,23 @@
             $itemsToDisplay = $page * $itemsPerPage; 
             $k = $page * $itemsPerPage - $itemsPerPage;
             echo '<div class="container">';
+            $x = 0;
             while ( isset( $use[ $k ] ) && $k < $itemsToDisplay ) {
                 echo '<div class="gallery">
-                <a target="_blank" href="#">
-                    <img src="' . $use[ $k++ ][ "path" ] . '" alt="" width="200" height="300">
-                </a>
-                <div class="desc">
-                    Here goes the comments
-                </div>
-            </div>';
+                    <a href="#popup'.$x.'"><img src="' . $use[ $k ][ "path" ] . '"></a>
+                    <div class="popup" id="popup'.$x++.'">
+                        <div class="popup_inner">
+                            <div class="popup_photo">
+                                <img src="' . $use[ $k++ ][ "path" ] . '">
+                            </div>
+                            <div class="popup_text">
+                                <h1>UserName<h1>
+                                <p> HELLO there my young onces</p>
+                            </div>
+                            <a href="" class="popup_close">X</a>
+                        </div>
+                    </div>
+                </div>';
             }
             echo '</div>
             <br/>

@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="css/style.css"/>
     </head>
     <body>
-        <div>
+        <div >
             <ul>
                 <li><a href="dashboard.php"><p>Home</p></a></li>
                 <li><a href="profile.php"><p>Profile</p></a></li>
