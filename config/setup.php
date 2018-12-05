@@ -29,6 +29,12 @@ try {
         `path` VARCHAR(255) NOT NULL,
         `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         );" );
+    $dbh->exec( "CREATE TABLE `camagru`.`comments` (
+        `coment_id` INT NOT NULL AUTO_INCREMENT ,
+        `img_id` INT NOT NULL ,
+        `username` VARCHAR(30) NOT NULL ,
+        `comment` TEXT NOT NULL ,
+        PRIMARY KEY (`coment_id`));" );
 }catch( PDOException $e ) {
     echo "Connection failed: " . $e->getMessage();
 }

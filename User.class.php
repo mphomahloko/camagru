@@ -36,7 +36,7 @@ Class User {
 			die( $e->getMessage() );
 		}
 	}
-
+	
 	private function getUser( $username ) {
 		//to be modified to work with email and username
 		try {
