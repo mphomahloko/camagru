@@ -1,5 +1,6 @@
 <?php require('header.php');?>
     <?php
+    session_start();
     require_once 'config/database.php';
         if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
             if ( !empty( htmlentities( $_POST[ 'subject' ] ) &&  !empty( htmlentities( $_POST[ 'username' ] ) )) ) {
@@ -14,12 +15,15 @@
         }
     }
         try {
-            session_start();
             $sql = "SELECT * FROM gallery ORDER BY date DESC";
             $db = DB::getInstance();
             $stmt = $db->connection()->prepare( $sql );
             $stmt->execute();
             $use = $stmt->fetchALL();
+            $sql= "SELECT * FROM comments";
+            $stmt = $stmt = $db->connection()->prepare( $sql );
+            $stmt->execute();
+            $comments = $stmt->fetchALL();
             } catch ( PDOException $e ) {
                 die( $e->getMessage() );
             }
