@@ -53,7 +53,7 @@ if ( isset($_POST["submit"] ) ) {
         <input type="file" name="fileToUpload" id="fileToUpload">
         <input type="submit" value="Upload Image" name="submit" ></p>
     </form><br />
-    <div>
+    <!-- <div>
         <img id="stk" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('stk');">
         <img id="stk1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('stk1');">
         <img id="stk2" src="./images/shocked.png" width="60" height="60" onclick="draw('stk2');">
@@ -66,8 +66,8 @@ if ( isset($_POST["submit"] ) ) {
     <form method = "POST">
         <input type="hidden" id="picture" name="photo">
         <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
-    </form><br />
-    <?php
+    </form><br /> -->
+    <!-- ?php
 
         $folder = "uploads/";
 
@@ -80,8 +80,8 @@ if ( isset($_POST["submit"] ) ) {
                 closedir( $open );
             }
         }
-    ?>
-    <br />
+    ?> -->
+    <!-- <br /> -->
     <script type="text/javascript" src="js/upload.js"></script>
     <script type="text/javascript" src="js/custom.js"></script>
 <?php require('footer.php');?>

@@ -15,11 +15,13 @@
         }
     }
         try {
-            $sql = "SELECT * FROM gallery ORDER BY date DESC";
+            //images
+            require_once 'Pictures.class.php';
+            $pic = new Pictures();
+            require_once 'helper.php';
+            $use = $pic->getGallery();
+            //comments
             $db = DB::getInstance();
-            $stmt = $db->connection()->prepare( $sql );
-            $stmt->execute();
-            $use = $stmt->fetchALL();
             $sql= "SELECT * FROM comments";
             $stmt = $stmt = $db->connection()->prepare( $sql );
             $stmt->execute();
@@ -41,6 +43,8 @@
             }
             $itemsToDisplay = $page * $itemsPerPage; 
             $k = $page * $itemsPerPage - $itemsPerPage;
+            // require_once 'helper.php';
+            // helper( $comments );
             echo '<div class="container">';
             $x = 0;
             if ( !isset($_SESSION[ 'username'] ) ){
@@ -54,7 +58,16 @@
                             <div class="popup_photo">
                                 <img src="' . $use[ $k++ ][ "path" ] . '">
                             </div>
-                            <div class="popup_text">
+                            <div class="popup_text">';
+                            $com = 0;
+                            while ( isset( $comments[ $com ] ) ) {
+                                if ( $comments[ $com ][ "img_id"] === $use[ $k ][ "user_Id" ] ) {
+                                    echo '<h3>'.$comments[ $com ]["username"].'</h3>
+                                    <p>'.$comments[ $com ][ "comment" ].'</p>';
+                                }
+                                $com = $com + 1;
+                            }
+                            echo '
                                 <form method="post" action="' . htmlspecialchars( $_SERVER[ "PHP_SELF" ] ) . '">
                                     <div class = "inputBox">
                                     <input type="hidden" name="img_id" value="' . $use[ $k ][ 'user_Id' ] . '" required>

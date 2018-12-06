@@ -111,10 +111,7 @@ ul {
     visibility: visible;
     opacity: 1;
 }
-textarea {
-    position: absolute;
-    bottom: 0;
-}
+
 .popup_text {
     display: flex;
     flex-direction: column;
