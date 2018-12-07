@@ -20,6 +20,18 @@ Class SendMail {
         self::send( $reciver, $subject, $message );
     }
 
+    public static function comment( $reciver ) {
+        $subject = "Camagru Notification";
+        $message = "Someone has commented on your post";
+        self::send( $reciver, $subject, $message );
+    }
+
+    public static function like( $reciver ) {
+        $subject = "Camagru Notification";
+        $message = "You just recived a like on one of your posts";
+        self::send( $reciver, $subject, $message );
+    }
+
     private static function send( $reciver, $subject, $message ) {
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";

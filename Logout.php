@@ -1,8 +1,7 @@
 <?php
 require_once 'config/database.php';
-//Destroy sessions here!
 session_start();
-$destroy = new Application();
+unset( $_SESSION[ 'username' ] );
 session_destroy();
 $user->redirect( 'index.php' );
 ?>

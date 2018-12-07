@@ -24,17 +24,17 @@ try {
         `notifications` TINYINT(2) NOT NULL DEFAULT 1
         );" );
     $dbh->exec( "CREATE TABLE IF NOT EXISTS `camagru`.`gallery` ( 
-        `user_Id` INT(255) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+        `img_Id` INT(255) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
         `username` VARCHAR(30) NOT NULL ,
         `path` VARCHAR(255) NOT NULL,
         `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         );" );
     $dbh->exec( "CREATE TABLE `camagru`.`comments` (
-        `coment_id` INT NOT NULL AUTO_INCREMENT ,
-        `img_id` INT NOT NULL ,
+        `comment_Id` INT NOT NULL AUTO_INCREMENT ,
+        `img_Id` INT NOT NULL ,
         `username` VARCHAR(30) NOT NULL ,
         `comment` TEXT NOT NULL ,
-        PRIMARY KEY (`coment_id`));" );
+        PRIMARY KEY (`comment_id`));" );
 }catch( PDOException $e ) {
     echo "Connection failed: " . $e->getMessage();
 }
