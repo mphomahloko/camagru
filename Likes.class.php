@@ -1,42 +1,56 @@
 <?php
 
 Class Likes extends User {
-    public $numOfLikes;
+    public $numOfLikes = 0;
 
     public function __construct() {
         parent::__construct();
+        self::setNumOfLikes();
     }
 
     private function _getLike( $img_Id, $username ) {
-        $sql = "SELECT * FROM `like_pic`
-        WHERE `img_Id` = ? AND `username` = ?";
-        $query = $this->prepare( $sql );
-        $query->execute();
-        $results = $query->fetch();
-        if ( count( $results ) ) return true;
+        try {
+            $sql = "SELECT * FROM `like_pic`
+            WHERE `img_Id` = ? AND `username` = ?";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( [ $img_Id, $username ] );
+            $results = $query->fetch();
+            if ( $results )
+                return true;
+        } catch ( PDOException $e ) {
+            die( $e->getMessage() );
+        }
         return false;
     }
 
     public function deleteOrAddLike( $img_Id, $username ) {
-        if ( self::getLike( $img_Id, $username ) )
+        if ( self::_getLike( $img_Id, $username ) )
             return self::_deleteLike( $img_Id, $username );
-        return self::_addLike();
+        return self::_addLike( $img_Id, $username );
     }
 
     private function _deleteLike( $img_Id, $username ) {
-        $sql = "DELETE FROM `like_pic`
-        WHERE `img_Id` = ? AND `username` = ?";
-        $query = $this->_pdo->prepare( $sql );
-        $query->execute( [ $img_Id, $username ] );
-        self::setNumOfLikes();
+        try {
+            $sql = "DELETE FROM `like_pic`
+            WHERE `img_Id` = ? AND `username` = ?";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( [ $img_Id, $username ] );
+            self::setNumOfLikes();
+        } catch ( PDOException $e ) {
+            die( $e->getMessage() );
+        }
     }
 
     private function _addLike( $img_Id ,$username ) {
-        $sql = "INSERT INTO `like_pic` 
-        SET `img_Id` = ?, `username` = ?";
-        $query = $this->_pdo->prepare( $sql );
-        $query->execute( [ $img_Id, $username ] );
-        self::setNumOfLikes();
+        try {
+            $sql = "INSERT INTO `like_pic` 
+            SET `img_Id` = ?, `username` = ?";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( [ $img_Id, $username ] );
+            self::setNumOfLikes();
+        } catch ( PDOException $e ) {
+            die( $e->getMessage() );
+        }
         //send an notification if conditions favor   
     }
 
@@ -48,5 +62,3 @@ Class Likes extends User {
         $this->numOfLikes = count( $results );
     }
 }
-
-?>

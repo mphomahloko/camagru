@@ -1,19 +1,12 @@
 <?php
 
 Class Pictures extends User {
-    private $_pdo;
     private $_gallery = [];
     public $numImg;
 
     public function __construct() {
-        try {
-            require_once 'DB.class.php';
-            $instance = DB::getInstance();
-            $this->_pdo = $instance->connection();
-            self::setGallery();
-        } catch ( PDOException $e ) {
-            die( $e->getMessage() );
-        }
+        parent::__construct();
+        self::setGallery();
     }
 
     public function addToGallery( $username, $path ) {
@@ -24,14 +17,28 @@ Class Pictures extends User {
         } catch ( PDOException $e ) {
             die( $e->getMessage() );
         }
-    } 
+    }
+
+    public function deleteImg( $img_Id ) {
+        try {
+            $sql = "DELETE FROM `gallery` WHERE `img_Id` = ?";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( $img_Id );
+        } catch ( PDOException $e ) {
+            die( $e->getMessage() );
+        } 
+    }
 
     private function setGallery() {
-        $sql = "SELECT * FROM gallery ORDER BY date DESC";
-        $query = $this->_pdo->prepare( $sql );
-        $query->execute();
-        $this->_gallery = $query->fetchALL();
-        $this->numImg = count( $this->_gallery );
+        try {
+            $sql = "SELECT * FROM gallery ORDER BY date DESC";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute();
+            $this->_gallery = $query->fetchALL();
+            $this->numImg = count( $this->_gallery );
+        } catch ( PDOException $e ) {
+            die( $e->getMessage() );
+        }
     }
 
     public function getGallery() {

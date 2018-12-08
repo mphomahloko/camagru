@@ -1,7 +1,7 @@
 <?php
 
 Class User {
-    private $_pdo;
+    protected $_pdo;
 	public $errMsg;
 
     public function __construct() {

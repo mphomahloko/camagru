@@ -15,7 +15,7 @@
                 $comnt->comment(  htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_POST[ 'username' ] ) , htmlentities( $_POST[ 'subject' ] )  );
             }
             if ( !empty( htmlentities( $_POST[ 'submit' ] == 'Like' ) ) ) {
-                $like->deleteOrAddLike( htmlentities( $_POST[ 'img_Id' ] ), htmlentities( $_SESSION[ 'username' ] ) );
+                $like->deleteOrAddLike( htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_SESSION[ 'username' ] ) );
             }
         }
         //images
@@ -64,7 +64,7 @@
                                 <textarea id="subject" name="subject" placeholder="Write something.." style="height:auto; width: 100%;"></textarea>
                                 </div>
                                 <div class = "inputBox">
-                                <p>' . $like->NumOfLikes . ' likes
+                                <p>' . $like->numOfLikes . ' likes
                                     <input type="submit" name="submit" value="comment">
                                     <input type="submit" name="submit" value="Like"></p>
                                 </div>
