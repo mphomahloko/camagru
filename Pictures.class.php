@@ -1,6 +1,6 @@
 <?php
 
-Class Pictures {
+Class Pictures extends User {
     private $_pdo;
     private $_gallery = [];
     public $numImg;
@@ -16,15 +16,22 @@ Class Pictures {
         }
     }
 
+    public function addToGallery( $username, $path ) {
+        try {
+            $sql = "INSERT INTO `gallery` (`username`, `path`) VALUES (?,?)";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( [ $username, $path ] );
+        } catch ( PDOException $e ) {
+            die( $e->getMessage() );
+        }
+    } 
+
     private function setGallery() {
         $sql = "SELECT * FROM gallery ORDER BY date DESC";
         $stmt = $this->_pdo->prepare( $sql );
         $stmt->execute();
         $this->_gallery = $stmt->fetchALL();
-        $i = 0;
-        while ( isset( $this->_gallery[ $i ] ) )
-            $i++;
-        $this->numImg = $i;
+        $this->numImg = count( $this->_gallery );
     }
 
     public function getGallery() {

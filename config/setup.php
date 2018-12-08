@@ -29,13 +29,19 @@ try {
         `path` VARCHAR(255) NOT NULL,
         `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         );" );
-    $dbh->exec( "CREATE TABLE `camagru`.`comments` (
+    $dbh->exec( "CREATE TABLE IF NOT EXISTS`camagru`.`comments` (
         `comment_Id` INT NOT NULL AUTO_INCREMENT ,
         `img_Id` INT NOT NULL ,
         `username` VARCHAR(30) NOT NULL ,
         `comment` TEXT NOT NULL ,
         PRIMARY KEY (`comment_id`));" );
-}catch( PDOException $e ) {
+    $dbh->exec( "CREATE TABLE IF NOT EXISTS `camagru`.`like_pic` (
+        `like_Id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `img_Id` INT NOT NULL,
+        `username` VARCHAR(30)
+        );" );
+    
+} catch( PDOException $e ) {
     echo "Connection failed: " . $e->getMessage();
 }
 $dbh = null;

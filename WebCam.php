@@ -1,26 +1,21 @@
 <?php
 require_once 'config/database.php';
+require_once 'Pictures.class.php';
+$pic = new Pictures();
 session_start();
 $path = "";
 if ( isset( $_POST['s_img'] ) ) {
     $img = $_POST['photo'];
-    $pic = explode( ",", $img );
+    $pics = explode( ",", $img );
     if ( $img ){
-        $mg = base64_decode( $pic[1] );
+        $mg = base64_decode( $pics[1] );
         $image_id = uniqid();
         $imageDir = "./images/";
         if ( !file_exists( $imageDir ) )
             mkdir($imageDir);
         file_put_contents($imageDir . $image_id . '.jpeg', $mg);
         $path = "images/" . $image_id .".jpeg";
-        try {
-            $sql = "INSERT INTO gallery (`username`, `path`)  VALUES (?,?)";
-            $db = DB::getInstance();
-            $stmt = $db->connection()->prepare( $sql );
-            $stmt->execute([ $_SESSION[ 'username' ], $path ]);
-        } catch ( PDOException $e ) {
-            die( $e->getMessage() );
-        }
+        $pic->addToGallery( $_SESSION[ 'username' ], $path );
     }
     else {
         die('Failed to take picture');

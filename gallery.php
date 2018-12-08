@@ -4,13 +4,18 @@
         require_once 'config/database.php';
         require_once 'Pictures.class.php';
         require_once 'Comments.class.php';
+        require_once 'Likes.class.php';
 
         $pic = new Pictures();
         $comnt = new Comments();
+        $like = new Likes();
 
         if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
-            if ( !empty( htmlentities( $_POST[ 'subject' ] ) &&  !empty( htmlentities( $_POST[ 'username' ] ) )) ) {
+            if ( !empty( htmlentities( $_POST[ 'subject' ] ) ) &&  !  empty( htmlentities( $_POST[ 'username' ] ) ) ) {
                 $comnt->comment(  htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_POST[ 'username' ] ) , htmlentities( $_POST[ 'subject' ] )  );
+            }
+            if ( !empty( htmlentities( $_POST[ 'submit' ] == 'Like' ) ) ) {
+                $like->deleteOrAddLike( htmlentities( $_POST[ 'img_Id' ] ), htmlentities( $_SESSION[ 'username' ] ) );
             }
         }
         //images
@@ -32,7 +37,7 @@
         $k = $page * $itemsPerPage - $itemsPerPage;
         echo '<div class="container">';
         $x = 0;
-        if ( !isset( $_SESSION[ 'username'] ) ){
+        if ( !isset( $_SESSION[ 'username'] ) ) {
             $_SESSION[ 'username' ] = '';
         }
         while ( isset( $use[ $k ] ) && $k < $itemsToDisplay ) {
@@ -59,7 +64,9 @@
                                 <textarea id="subject" name="subject" placeholder="Write something.." style="height:auto; width: 100%;"></textarea>
                                 </div>
                                 <div class = "inputBox">
+                                <p>' . $like->NumOfLikes . ' likes
                                     <input type="submit" name="submit" value="comment">
+                                    <input type="submit" name="submit" value="Like"></p>
                                 </div>
                             </form>
                         </div>
