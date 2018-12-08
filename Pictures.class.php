@@ -28,9 +28,9 @@ Class Pictures extends User {
 
     private function setGallery() {
         $sql = "SELECT * FROM gallery ORDER BY date DESC";
-        $stmt = $this->_pdo->prepare( $sql );
-        $stmt->execute();
-        $this->_gallery = $stmt->fetchALL();
+        $query = $this->_pdo->prepare( $sql );
+        $query->execute();
+        $this->_gallery = $query->fetchALL();
         $this->numImg = count( $this->_gallery );
     }
 
@@ -38,5 +38,3 @@ Class Pictures extends User {
         return $this->_gallery;
     }
 }
-
-?>

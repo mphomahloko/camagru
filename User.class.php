@@ -1,13 +1,12 @@
 <?php
 
 Class User {
-
-    private $_instance;
-    private $_table = 'users';
+    private $_pdo;
 	public $errMsg;
 
     public function __construct() {
-		$this->_instance = DB::getInstance();
+		$instance = DB::getInstance();
+		$this->_pdo = $instance->connection();
     }
 
     public function register( array $data ) {
@@ -28,7 +27,7 @@ Class User {
 			$values[ 'token' ] = hash( 'sha256', $values[ 'email' ] ) . bin2hex( random_bytes(4) );
 			$set .= "`" . str_replace( "`", "``", 'token') . "`" . "=:token, ";
 			$set = substr( $set, 0, -2);
-			$stmt = $this->_instance->connection()->prepare( "INSERT INTO $this->_table SET $set" );
+			$stmt = $this->_pdo->prepare( "INSERT INTO `users` SET $set" );
 			$stmt->execute( $values );
 			require_once 'SendMail.class.php';
 			SendMail::verify( $values[ 'email' ], $values[ 'token' ] );
@@ -41,7 +40,7 @@ Class User {
 		//to be modified to work with email and username
 		try {
 			$sql = "SELECT * FROM `users` WHERE `username` = ?";
-			$query = $this->_instance->connection()->prepare( $sql );
+			$query = $this->_pdo->prepare( $sql );
 			$query->execute( [ $username ] );
 			$user = $query->fetch();
 		} catch ( PDOException $e ) {
@@ -53,12 +52,12 @@ Class User {
 	public function confirmUser( array $data ) {
 		try {
 			//modify to be able to get user properly
-			$stmt = $this->_instance->connection()->prepare( "SELECT * FROM $this->_table WHERE email = ? AND token = ?" );
+			$stmt = $this->_pdo->prepare( "SELECT * FROM `users` WHERE email = ? AND token = ?" );
 			$stmt->execute( [ $data[ 'email'], $data[ 'token'] ] );
 			$res = $stmt->fetchColumn();
 			if ( $res ) {
-				$sql = "UPDATE $this->_table SET verified = :verified WHERE email = :email AND token = :token";
-				$this->_instance->connection()->prepare( $sql )->execute( $data );
+				$sql = "UPDATE `users` SET verified = :verified WHERE email = :email AND token = :token";
+				$this->_pdo->prepare( $sql )->execute( $data );
 			}
 			else {
 				echo 'User not found';
@@ -70,7 +69,7 @@ Class User {
 
 	public function login( array $data ) {
 		try {
-			$stmt = $this->_instance->connection()->prepare( "SELECT * FROM $this->_table WHERE username = ?" );
+			$stmt = $this->_pdo->prepare( "SELECT * FROM `users` WHERE username = ?" );
 			$stmt->execute( [ $data[ 'username' ] ] );
 			$res = $stmt->fetch();
 			if ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 1 ) {
@@ -95,7 +94,7 @@ Class User {
 		if ( !$user )
 			return $this->errMsg = 'User does not exist';
 		try {
-			$query = $this->_instance->connection()->prepare( "UPDATE `users` SET `token` = ? WHERE `username` = ?" );
+			$query = $this->_pdo->prepare( "UPDATE `users` SET `token` = ? WHERE `username` = ?" );
 			$query->execute( [ hash( 'sha256', $user[ 'email' ] ) . bin2hex( random_bytes(4) ), $username ] );
 		} catch ( PDOException $e ) {
 			die( $e->getMessage() );
@@ -113,11 +112,11 @@ Class User {
 				$new_username = self::getUser( $value );
 				if ( $new_username[ 'username' ] == $username ) return ;
 				if ( $new_username ) return $this->errMsg = 'Username already in use';
-				$query = $this->_instance->connection()->prepare( "UPDATE `gallery` SET `{$field}` = ? WHERE `username` = ?" );
+				$query = $this->_pdo->prepare( "UPDATE `gallery` SET `{$field}` = ? WHERE `username` = ?" );
 				$query->execute( [ $value, $username ] );
 			}
 			try {
-				$query = $this->_instance->connection()->prepare( "UPDATE `users` SET `{$field}` = ? WHERE `username` = ?" );
+				$query = $this->_pdo->prepare( "UPDATE `users` SET `{$field}` = ? WHERE `username` = ?" );
 				$query->execute( [ $value, $username ] );
 				$_SESSION[ 'username' ] = $value;
 			} catch ( PDOException $e ) {
@@ -141,5 +140,4 @@ Class User {
 
 	}
 }
-
 ?>
