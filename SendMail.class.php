@@ -7,7 +7,7 @@ Class SendMail {
     }
 
     public static function verify( $reciver, $token ) {
-        $link = self::uniqueLink( 'verify.php', $reciver, $token);
+        $link = self::uniqueLink( 'verify.php', $reciver, $token );
         $subject = 'Confirm Camagru Registion';
         $message = 'To confirm your registration<br/><a href= ' . $link . '>Click Here!</a><br/>';
         self::send( $reciver, $subject, $message );

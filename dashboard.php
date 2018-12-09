@@ -32,6 +32,7 @@
                     <img src="' . $use[ $k++ ][ "path" ] . '" alt="" width="200" height="300">
                 </a>
                 <div class="desc">
+                
                     Here goes the comments
                 </div>
             </div>';

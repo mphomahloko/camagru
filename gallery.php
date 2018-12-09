@@ -11,10 +11,10 @@
         $like = new Likes();
 
         if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
-            if ( !empty( htmlentities( $_POST[ 'subject' ] ) ) &&  !  empty( htmlentities( $_POST[ 'username' ] ) ) ) {
+            if ( !empty( htmlentities( $_POST[ 'subject' ] ) ) &&  !empty( htmlentities( $_POST[ 'username' ] ) ) ) {
                 $comnt->comment(  htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_POST[ 'username' ] ) , htmlentities( $_POST[ 'subject' ] )  );
             }
-            if ( !empty( htmlentities( $_POST[ 'submit' ] == 'Like' ) ) ) {
+            if ( !empty( htmlentities( $_POST[ 'submit' ] == 'Like' ) ) && !empty( htmlentities( $_POST[ 'username' ] ) ) ) {
                 $like->deleteOrAddLike( htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_SESSION[ 'username' ] ) );
             }
         }

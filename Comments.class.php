@@ -15,6 +15,7 @@ Class Comments {
         $sql = "INSERT INTO `comments` SET `img_Id` = ?, `username` = ?, comment = ?";
         $query = $this->_pdo->prepare( $sql );
         $query->execute( [ $id, $username, $comment ] );
+        self::setComments();
         //enable comment notification with a condition
     }
 
