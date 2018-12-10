@@ -29,6 +29,10 @@ ul {
     background-color: #333333;
 }
 /* gallery section */
+
+.delete_post {
+    text-decoration: none;
+}
 .container{
     margin: 0% auto;
     height: 90%;
@@ -76,6 +80,7 @@ ul {
 
 .desc {
     padding: 25px;
+    text-decoration: none;
     text-align: center;
 }
 

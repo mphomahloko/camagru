@@ -28,12 +28,9 @@
             echo '<div class="container">';
             while ( isset( $use[ $k ] ) && $k < $itemsToDisplay ) {
                 echo '<div class="gallery">
-                <a target="_blank" href="#">
-                    <img src="' . $use[ $k++ ][ "path" ] . '" alt="" width="200" height="300">
-                </a>
+                <img src="' . $use[ $k ][ "path" ] . '" alt="" width="200" height="300">
                 <div class="desc">
-                
-                    Here goes the comments
+                    <a href="deletePost.php?img_Id='. $use[ $k++ ][ "img_Id" ] . '">delete post</a>
                 </div>
             </div>';
             }
