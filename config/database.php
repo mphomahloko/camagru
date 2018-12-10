@@ -10,7 +10,7 @@ require_once __DIR__ . '/../Application.class.php';
 
 $host = "localhost";
 $username = "root";
-$password = "123456";
+$password = "";
 $charset = 'utf8mb4';
 $db = "camagru";
 
@@ -21,7 +21,5 @@ $options = [
 ];
 
 $user = new User();
-
-$w = new Application();
 
 ?>

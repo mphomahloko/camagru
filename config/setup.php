@@ -2,7 +2,7 @@
 
 $host = "localhost";
 $root = "root";
-$pass = "123456";
+$pass = "";
 $newdb = "camagru";
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

@@ -10,8 +10,7 @@ Class Likes extends User {
 
     private function _getLike( $img_Id, $username ) {
         try {
-            $sql = "SELECT * FROM `like_pic`
-            WHERE `img_Id` = ? AND `username` = ?";
+            $sql = "SELECT * FROM `like_pic` WHERE `img_Id` = ? AND `username` = ?";
             $query = $this->_pdo->prepare( $sql );
             $query->execute( [ $img_Id, $username ] );
             $results = $query->fetch();
@@ -31,8 +30,7 @@ Class Likes extends User {
 
     private function _deleteLike( $img_Id, $username ) {
         try {
-            $sql = "DELETE FROM `like_pic`
-            WHERE `img_Id` = ? AND `username` = ?";
+            $sql = "DELETE FROM `like_pic` WHERE `img_Id` = ? AND `username` = ?";
             $query = $this->_pdo->prepare( $sql );
             $query->execute( [ $img_Id, $username ] );
             self::setNumOfLikes();

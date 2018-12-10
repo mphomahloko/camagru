@@ -1,12 +1,12 @@
 <?php
 
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 // Check if image file is a actual image or fake image
 if ( isset($_POST["submit"] ) ) {
     unset($POST['submit']);
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
         //echo "File is an image - " . $check["mime"] . ".";
@@ -53,35 +53,6 @@ if ( isset($_POST["submit"] ) ) {
         <input type="file" name="fileToUpload" id="fileToUpload">
         <input type="submit" value="Upload Image" name="submit" ></p>
     </form><br />
-    <!-- <div>
-        <img id="stk" src="./images/fuck_off.jpg" width="60" height="60" onclick="draw('stk');">
-        <img id="stk1" src="./images/Awe.jpeg" width="60" height="60" onclick="draw('stk1');">
-        <img id="stk2" src="./images/shocked.png" width="60" height="60" onclick="draw('stk2');">
-        <img id="stk3" src="./images/wink.png" width="60" height="60" onclick="draw('stk3');">
-        <img id="stk4" src="./images/shit.png" width="60" height="60" onclick="draw('stk4');">
-        <img id="stk5" src="./images/smile.png" width="60" height="60" onclick="draw('stk5');">
-    </div>
-        <br>
-    <canvas id="canvas" ></canvas><br/>
-    <form method = "POST">
-        <input type="hidden" id="picture" name="photo">
-        <input id="but" type="hidden" name="s_img" value="Save Image" onclick="finalImage();">
-    </form><br /> -->
-    <!-- ?php
-
-        $folder = "uploads/";
-
-        if ( is_dir( $folder ) ) {
-            if ( $open = opendir( $folder ) ) {
-                while ( ( $file = readdir( $open ) ) != false ) {
-                    if ( $file == '.' || $file == '..' ) continue;
-                    echo '<img style="display: none;" id="imgUpload" src="' . $folder . $file . '" width="150" height=150 ><br>';
-                }
-                closedir( $open );
-            }
-        }
-    ?> -->
-    <!-- <br /> -->
     <script type="text/javascript" src="js/upload.js"></script>
     <script type="text/javascript" src="js/custom.js"></script>
 <?php require('footer.php');?>
