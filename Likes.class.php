@@ -48,10 +48,15 @@ Class Likes extends User {
             $query = $this->_pdo->prepare( $sql );
             $query->execute( [ $img_Id, $username ] );
             self::setNumOfLikes();
+            $details = self::_getPostDetails( $img_Id );
+            $user = self::_getUser( $details[ 'username' ] );
+            if ( self::getUserNotifications( $details[ 'username' ] ) ) {
+                require_once 'SendMail.class.php';
+                SendMail::like( $user[ 'email' ] );
+            }
         } catch ( PDOException $e ) {
             die( $e->getMessage() );
         }
-        //send an notification if conditions favor   
     }
 
     private function setNumOfLikes() {

@@ -1,22 +1,28 @@
 <?php
 
-Class Comments {
-    private $_pdo;
+Class Comments extends User {
     private $_comments = [];
 
     public function __construct() {
-        require_once 'DB.class.php';
-        $instance = DB::getInstance();
-        $this->_pdo = $instance->connection();
+        parent::__construct();
         self::setComments();
     }
 
     public function comment( $id, $username, $comment ) {
-        $sql = "INSERT INTO `comments` SET `img_Id` = ?, `username` = ?, comment = ?";
-        $query = $this->_pdo->prepare( $sql );
-        $query->execute( [ $id, $username, $comment ] );
-        self::setComments();
-        //enable comment notification with a condition
+        try {
+            $sql = "INSERT INTO `comments` SET `img_Id` = ?, `username` = ?, comment = ?";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( [ $id, $username, $comment ] );
+            self::setComments();
+            $details = self::_getPostDetails( $id );
+            $user = self::_getUser( $details[ 'username' ] );
+            if ( self::getUserNotifications( $details[ 'username' ] ) ) {
+                require_once 'SendMail.class.php';
+                SendMail::comment( $user[ 'email' ] );
+            }
+         } catch (PDOException $e ) {
+			die( $e->getMessage() );
+		}
     }
 
     private function setComments() {

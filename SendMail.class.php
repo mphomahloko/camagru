@@ -22,7 +22,7 @@ Class SendMail {
 
     public static function comment( $reciver ) {
         $subject = "Camagru Notification";
-        $message = "Someone has commented on your post";
+        $message = "Someone has commented on one of your post";
         self::send( $reciver, $subject, $message );
     }
 

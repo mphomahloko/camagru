@@ -1,7 +1,7 @@
 <?php
 
 Class User {
-    protected $_pdo;
+	protected $_pdo;
 	public $errMsg;
 
     public function __construct() {
@@ -35,8 +35,13 @@ Class User {
 			die( $e->getMessage() );
 		}
 	}
-	
-	private function getUser( $username ) {
+
+	public function getUserNotifications( $username ) {
+		$user = self::_getUser( $username );
+		return $user[ 'notifications' ];
+	}
+
+	protected function _getUser( $username ) {
 		//to be modified to work with email and username
 		try {
 			$sql = "SELECT * FROM `users` WHERE `username` = ?";
@@ -83,14 +88,14 @@ Class User {
 				echo 'Invalid Password';
 			}
 
-		}catch( PDOException $e ) {
+		} catch( PDOException $e ) {
 			die( $e->getMessage() );
 		}
 	}
 
 	public function sendPassword( $username ) {
 		$this->errMsg = '';
-		$user = self::getUser( $username );
+		$user = self::_getUser( $username );
 		if ( !$user )
 			return $this->errMsg = 'User does not exist';
 		try {
@@ -105,20 +110,21 @@ Class User {
 
 	public function updateProfile( $username, $password, $field, $value ) {
 		$this->errMsg = '';
-		$user = self::getUser( $username ); 
+		$user = self::_getUser( $username ); 
 		if ( !$user ) return $this->errMsg = 'No such user was found';
 		if ( password_verify( $password, $user[ 'password' ] ) ) {
 			if ( $field == 'username' ) {
-				$new_username = self::getUser( $value );
+				$new_username = self::_getUser( $value );
 				if ( $new_username[ 'username' ] == $username ) return ;
 				if ( $new_username ) return $this->errMsg = 'Username already in use';
 				$query = $this->_pdo->prepare( "UPDATE `gallery` SET `{$field}` = ? WHERE `username` = ?" );
 				$query->execute( [ $value, $username ] );
+				$_SESSION[ 'username' ] = $value;
 			}
 			try {
 				$query = $this->_pdo->prepare( "UPDATE `users` SET `{$field}` = ? WHERE `username` = ?" );
 				$query->execute( [ $value, $username ] );
-				$_SESSION[ 'username' ] = $value;
+				self::redirect( 'profile.php' );
 			} catch ( PDOException $e ) {
 				die( $e->getMessage() );
 			}
@@ -126,6 +132,19 @@ Class User {
 			return $this->errMsg = 'Invalid Password';
 		}
 	}
+
+    protected function _getPostDetails( $img_Id ) {
+        try {
+			$sql = "SELECT * FROM `gallery` WHERE `img_Id` = ?";
+			$query = $this->_pdo->prepare( $sql );
+			$query->execute( [ $img_Id ] );
+			$user = $query->fetch();
+		} catch ( PDOException $e ) {
+			die( $e->getMessage() );
+		}
+		return $user;
+    }
+
     public static function redirect( $url ) {
 		header( 'location: ' . $url );
 	}
