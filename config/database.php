@@ -6,11 +6,10 @@ error_reporting(E_ALL);
 
 require_once './DB.class.php';
 require_once './User.class.php';
-require_once __DIR__ . '/../Application.class.php';
 
 $host = "localhost";
 $username = "root";
-$password = "";
+$password = "123456";
 $charset = 'utf8mb4';
 $db = "camagru";
 

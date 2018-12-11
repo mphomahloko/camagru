@@ -6,7 +6,7 @@ Class DB {
 
     private function __construct() {
         try {
-            $this->_pdo = new PDO( "mysql:host=localhost;dbname=camagru;charset=utf8mb4", 'root', '', [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
+            $this->_pdo = new PDO( "mysql:host=localhost;dbname=camagru;charset=utf8mb4", 'root', '123456', [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ] );
         } catch(PDOException $e) {
             die( $e->getMessage() );

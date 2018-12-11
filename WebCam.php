@@ -7,7 +7,7 @@ $path = "";
 if ( isset( $_POST['s_img'] ) ) {
     $img = $_POST['photo'];
     $pics = explode( ",", $img );
-    if ( $img ){
+    if ( $img ) {
         $mg = base64_decode( $pics[1] );
         $image_id = uniqid();
         $imageDir = "./images/";
@@ -16,9 +16,6 @@ if ( isset( $_POST['s_img'] ) ) {
         file_put_contents($imageDir . $image_id . '.jpeg', $mg);
         $path = "images/" . $image_id .".jpeg";
         $pic->addToGallery( $_SESSION[ 'username' ], $path );
-    }
-    else {
-        die('Failed to take picture');
     }
 }
 
