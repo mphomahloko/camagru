@@ -10,7 +10,7 @@
                 </div>
             </form>
             <?php
-               require_once 'config/database.php';
+               require_once 'config/config.php';
                if ( $_SERVER[ 'REQUEST_METHOD'] == 'POST' )
                    if ( !empty( htmlentities( $_POST[ 'username' ] ) ) && htmlentities( $_POST[ 'submit' ] ) == 'Reset' ) {
                        $username = htmlentities( $_POST[ 'username' ] );

@@ -1,5 +1,5 @@
 <?php
-require_once 'config/database.php';
+require_once 'config/config.php';
 
 if ( isset( $_GET[ 'token' ] ) && isset( $_GET[ 'email' ]) ) {
     $data[ 'token' ] = $_GET[ 'token' ];

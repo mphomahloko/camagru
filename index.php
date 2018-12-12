@@ -1,5 +1,5 @@
 <?php
-require_once 'config/database.php';
+require_once 'config/config.php';
 
 $username = $password = "";
 $errors = $data = array();
@@ -44,6 +44,7 @@ function test_input( $trimm ) {
                     </div>
                     <div class = "inputBox">
                         <input type="submit" name="submit" value="Log in" requred="">
+                        <a href="register.php">Register</a>
                     </div>
                     <a href="forgot.php">forgot password ?</a>
             </form>

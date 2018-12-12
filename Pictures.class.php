@@ -3,6 +3,7 @@
 Class Pictures extends User {
     private $_gallery = [];
     public $numImg;
+    public $numOfUserImgs;
 
     public function __construct() {
         parent::__construct();
@@ -19,11 +20,24 @@ Class Pictures extends User {
         }
     }
 
+    public function getUserGallery( $username ) {
+        try {
+            $sql = "SELECT * FROM gallery WHERE username = ? ORDER BY date DESC";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( [ $username ] );
+            $userGallery = $query->fetchALL();
+            $this->numOfUserImgs = count( $userGallery );
+        } catch ( PDOException $e ) {
+            die( $e->getMessage() );
+        }
+        return $userGallery;
+    }
+
     public function deleteImg( $img_Id ) {
         try {
             $sql = "DELETE FROM `gallery` WHERE `img_Id` = ?";
             $query = $this->_pdo->prepare( $sql );
-            $query->execute( $img_Id );
+            $query->execute( [ $img_Id ] );
         } catch ( PDOException $e ) {
             die( $e->getMessage() );
         } 

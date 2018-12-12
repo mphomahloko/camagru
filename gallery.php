@@ -1,22 +1,23 @@
-<?php require('header.php');?>
     <?php
-        session_start();
-        require_once 'config/database.php';
+        require_once 'config/config.php';
         require_once 'Pictures.class.php';
         require_once 'Comments.class.php';
         require_once 'Likes.class.php';
+        require('header.php');
 
         $pic = new Pictures();
         $comnt = new Comments();
         $like = new Likes();
-
         if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
-            if ( !empty( htmlentities( $_POST[ 'subject' ] ) ) &&  !empty( htmlentities( $_POST[ 'username' ] ) ) ) {
-                $comnt->comment(  htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_POST[ 'username' ] ) , htmlentities( $_POST[ 'subject' ] )  );
-            }
-            if ( !empty( htmlentities( $_POST[ 'submit' ] == 'Like' ) ) && !empty( htmlentities( $_POST[ 'username' ] ) ) ) {
-                $like->deleteOrAddLike( htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_SESSION[ 'username' ] ) );
-            }
+            if ( Session::isLoggedIn() ) {
+                if ( !empty( htmlentities( $_POST[ 'subject' ] ) ) ) {
+                    $comnt->comment(  htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_POST[ 'username' ] ) , htmlentities( $_POST[ 'subject' ] )  );
+                }
+                if ( !empty( htmlentities( $_POST[ 'submit' ] == 'Like' ) ) ) {
+                    $like->deleteOrAddLike( htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_SESSION[ 'username' ] ) );
+                }
+            } else
+                die( "You do not have proper acess to this page" );
         }
         //images
         $use = $pic->getGallery();
@@ -38,9 +39,6 @@
             $k = $page * $itemsPerPage - $itemsPerPage;
             echo '<div class="container">';
             $x = 0;
-            if ( !isset( $_SESSION[ 'username'] ) ) {
-                $_SESSION[ 'username' ] = '';
-            }
             while ( isset( $use[ $k ] ) && $k < $itemsToDisplay ) {
                 echo '<div class="gallery">
                     <a href="#popup'.$x.'"><img src="' . $use[ $k ][ "path" ] . '"></a>
@@ -61,14 +59,14 @@
                                 <form method="post" action="' . htmlspecialchars( $_SERVER[ "PHP_SELF" ] ) . '">
                                     <div class = "inputBox">
                                     <input type="hidden" name="img_id" value="' . $use[ $k++ ][ "img_Id" ] . '" required>
-                                    <input type="hidden" name="username" value="' . $_SESSION[ "username" ] . '" required>
                                     <textarea id="subject" name="subject" placeholder="Write something.." style="height:auto; width: 100%;"></textarea>
                                     </div>
                                     <div class = "inputBox">
-                                    <p>' . $like->numOfLikes . ' likes
-                                        <input type="submit" name="submit" value="comment">
-                                        <input type="submit" name="submit" value="Like"></p>
-                                    </div>
+                                    <p>' . $like->numOfLikes . ' likes </p>';
+                                    if ( Session::isLoggedIn() )
+                                        echo '<input type="submit" name="submit" value="comment">
+                                        <input type="submit" name="submit" value="Like"></p>';
+                                    echo '</div>
                                 </form>
                             </div>
                             <a href="" class="popup_close">X</a>

@@ -6,8 +6,8 @@ Class DB {
 
     private function __construct() {
         try {
-            $this->_pdo = new PDO( "mysql:host=localhost;dbname=camagru;charset=utf8mb4", 'root', '123456', [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ] );
+            require_once './config/database.php';
+            $this->_pdo = new PDO( $dsn, $username, $password, $options );
         } catch(PDOException $e) {
             die( $e->getMessage() );
         }

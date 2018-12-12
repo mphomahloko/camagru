@@ -1,8 +1,7 @@
 <?php
-require_once 'config/database.php';
+require_once 'config/config.php';
 require_once 'Pictures.class.php';
 $pic = new Pictures();
-session_start();
 $path = "";
 if ( isset( $_POST['s_img'] ) ) {
     $img = $_POST['photo'];

@@ -78,9 +78,8 @@ Class User {
 			$stmt->execute( [ $data[ 'username' ] ] );
 			$res = $stmt->fetch();
 			if ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 1 ) {
-				session_start();
 				$_SESSION[ 'username' ] = $data[ 'username' ];
-				self::redirect( 'dashboard.php' );
+				Router::redirect( 'dashboard.php' );
 			}
 			elseif ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 0 ) {
 				echo 'Please Check Email to Activate your account';
@@ -143,15 +142,6 @@ Class User {
 			die( $e->getMessage() );
 		}
 		return $user;
-    }
-
-    public static function redirect( $url ) {
-		header( 'location: ' . $url );
-	}
-
-	//verifying if the user is logged in or not
-	public function is_loggedin() {
-
 	}
 	
 	//Modify the logout functionality

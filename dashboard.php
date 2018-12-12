@@ -1,19 +1,13 @@
-<?php require('header.php');?>
 <?php
-    require_once 'config/database.php';
-        try {
-            session_start();
-            $sql = "SELECT * FROM gallery WHERE username = ? ORDER BY date DESC";
-            $db = DB::getInstance();
-            $stmt = $db->connection()->prepare( $sql );
-            $stmt->execute( [ $_SESSION[ 'username' ] ] );
-            $use = $stmt->fetchALL();
-            } catch ( PDOException $e ) {
-                die( $e->getMessage() );
-            }
-            $items = 0;
-            while ( isset( $use[ $items ] ) )
-                $items++;
+    require_once 'config/config.php';
+    require_once 'Pictures.class.php';
+    require('header.php');
+    
+    if ( Session::isLoggedIn() ) {
+        $pic = new Pictures();
+        $use = $pic->getUserGallery( $_SESSION[ 'username' ] );
+        if ( $use ){
+            $items = $pic->numOfUserImgs;    
             $itemsPerPage = 5;
             $totalPages = ceil( $items / $itemsPerPage );
             if ( isset ($_GET[ 'page' ] )  && !empty( $_GET[ 'page' ] ) ) {
@@ -28,11 +22,11 @@
             echo '<div class="container">';
             while ( isset( $use[ $k ] ) && $k < $itemsToDisplay ) {
                 echo '<div class="gallery">
-                <img src="' . $use[ $k ][ "path" ] . '" alt="" width="200" height="300">
-                <div class="desc">
-                    <a href="deletePost.php?img_Id='. $use[ $k++ ][ "img_Id" ] . '">delete post</a>
-                </div>
-            </div>';
+                        <img src="' . $use[ $k ][ "path" ] . '" alt="" width="200" height="300">
+                    <div class="desc">
+                        <a href="deletePost.php?img_Id='. $use[ $k++ ][ "img_Id" ] . '">delete post</a>
+                    </div>
+                </div>';
             }
             echo '</div>
             <br/>
@@ -42,7 +36,10 @@
                     echo '<a class="active">' . $i . '</a>';
                 else
                     echo '<a href="dashboard.php?page=' . $i . '">' . $i . '</a>';
-            }
-            echo '</div>';
-        ?>
+                }
+                echo '</div>';
+        }
+    } else
+        die( "You do not have access to this page" );
+?>
 <?php require('footer.php');?>

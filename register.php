@@ -4,40 +4,17 @@ require_once 'config/database.php';
 $name = $username = $fname = $lname = $email = $password = "";
 $errors = $data = array();
 if ( $_SERVER[ 'REQUEST_METHOD'] == 'POST' ) {
-    
-    if ( empty( $_POST[ 'username' ] ) ) {
-        $errors[] = "Can't leave Username field empty!";
-    }else {
-		$username = test_input( $_POST[ 'username' ] );
+		$username = Input::get( test_input( $_POST[ 'username' ] ) );
         $data[ 'username' ] = $username;
-    }
-    if ( empty( $_POST[ 'fname' ] ) ) {
-        $errors[] = "Can't leave your first name field empty!";
-    }else {
-        $fname = test_input( $_POST[ 'fname' ] );
+        $fname = Input::get( test_input( $_POST[ 'fname' ] ) );
         $data[ 'fname' ] = $fname;
-    }
-    if ( empty( $_POST[ 'lname' ] ) ) {
-        $errors[] = "Can't leave your last name field empty!";
-    }else {
-        $lname = test_input( $_POST[ 'lname' ] );
+        $lname = Input::get( test_input( $_POST[ 'lname' ] ) );
         $data[ 'lname' ] = $lname;
-    }
-    if ( empty( $_POST[ 'email' ] ) ) {
-        $errors[] = "Can't leave the email field empty!";
-    }else {
-        $email = test_input( $_POST[ 'email' ] );
+        $email = Input::get( test_input( $_POST[ 'email' ] ) );
         $data[ 'email' ] = $email;
-    }
-    if ( empty( $_POST[ 'passwrd' ] ) ) {
-        $errors[] = "Can't leave Password field empty!";
-    }else {
-        $password = test_input( $_POST[ 'passwrd' ] );
+        $password = Input::get( test_input( $_POST[ 'passwrd' ] ) );
         $data[ 'password' ] = $password;
-    }
-    if ( empty( $errors ) ) {
         $user->register( $data );
-    }
 }
 
 function test_input( $trimm ) {

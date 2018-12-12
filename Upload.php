@@ -1,9 +1,8 @@
 <?php
-require_once 'config/database.php';
+require_once 'config/config.php';
 require_once 'Pictures.class.php';
 
 $pic = new Pictures();
-session_start();
 // Check if image file is a actual image or fake image
 if ( isset( $_POST["submit"] ) ) {
     unset( $_POST['submit'] );
@@ -11,7 +10,8 @@ if ( isset( $_POST["submit"] ) ) {
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if ( isset( $_FILES["fileToUpload"]["tmp_name"] ) )
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if( $check !== false ) {
         //echo "File is an image - " . $check["mime"] . ".";
         $uploadOk = 1;
