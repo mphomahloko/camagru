@@ -1,6 +1,7 @@
 <?php
 require_once 'config/config.php';
-
+if ( Session::isLoggedIn() )
+    Router::redirect( 'dashboard.php' );
 $username = $password = "";
 $errors = $data = array();
 

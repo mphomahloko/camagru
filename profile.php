@@ -1,5 +1,7 @@
 <?php 
     require_once 'config/config.php';
+    if ( !Session::isLoggedIn() )
+        Router::redirect( 'index.php' );
     require('header.php');
 ?>
         <div>

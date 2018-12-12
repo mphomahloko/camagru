@@ -1,6 +1,8 @@
 <?php
 require_once 'config/config.php';
 require_once 'Pictures.class.php';
+if ( !Session::isLoggedIn() )
+    Router::redirect( 'index.php' );
 $pic = new Pictures();
 $path = "";
 if ( isset( $_POST['s_img'] ) ) {

@@ -1,6 +1,7 @@
 <?php
 require_once 'config/database.php';
-
+if ( Session::isLoggedIn() )
+    Router::redirect( 'dashboard.php' );
 $name = $username = $fname = $lname = $email = $password = "";
 $errors = $data = array();
 if ( $_SERVER[ 'REQUEST_METHOD'] == 'POST' ) {

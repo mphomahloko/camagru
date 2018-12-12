@@ -2,7 +2,8 @@
     require_once 'config/config.php';
     require_once 'Pictures.class.php';
     require('header.php');
-    
+    if ( !Session::isLoggedIn() )
+        Router::redirect( 'index.php' );
     if ( Session::isLoggedIn() ) {
         $pic = new Pictures();
         $use = $pic->getUserGallery( $_SESSION[ 'username' ] );
