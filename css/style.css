@@ -183,6 +183,11 @@ ul {
     overflow: hidden;
 }
 
+/* reset password */
+.reset_password {
+    margin: 0 auto;
+}
+
 /* Canvas */
 #canvas {
     border-style: dashed;

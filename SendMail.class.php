@@ -13,10 +13,9 @@ Class SendMail {
         self::send( $reciver, $subject, $message );
     }
 
-    public static function resetPassword( $reciver, $token) {
-        $link = self::uniqueLink( 'reset.php', $reciver, $token );
+    public static function resetPassword( $reciver, $new_pass ) {
         $subject = 'Camagru Reset Password';
-        $message = 'To reset your Password<br/><a href= ' . $link . '>Click Here!</a><br/>';
+        $message = 'Your new Password is ' . $new_pass;
         self::send( $reciver, $subject, $message );
     }
 

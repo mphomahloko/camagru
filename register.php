@@ -1,5 +1,6 @@
 <?php
-require_once 'config/database.php';
+require_once 'config/config.php';
+
 if ( Session::isLoggedIn() )
     Router::redirect( 'dashboard.php' );
 $name = $username = $fname = $lname = $email = $password = "";

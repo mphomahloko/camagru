@@ -1,6 +1,7 @@
 <?php
 require_once './config/config.php';
 require_once './Pictures.class.php';
+
 if ( Session::isLoggedIn() ) {
     $pic = new Pictures(); 
     if ( isset( $_GET[ 'img_Id' ]  ) )

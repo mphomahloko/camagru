@@ -70,23 +70,24 @@ Class User {
 		} catch ( PDOException $e ) {
 			die ( $e->getMessage() );
 		}
+		return $res;
 	}
 
 	public function login( array $data ) {
+		$this->errMsg = '';
+		$user = self::_getUser( $data[ 'username' ] );
+		if ( !$user )
+			return $this->errMsg = 'User does not exist';
 		try {
-			$stmt = $this->_pdo->prepare( "SELECT * FROM `users` WHERE username = ?" );
-			$stmt->execute( [ $data[ 'username' ] ] );
-			$res = $stmt->fetch();
-			if ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 1 ) {
-				$_SESSION[ 'username' ] = $data[ 'username' ];
+			if ( password_verify( $data[ 'password' ], $user[ 'password' ] ) && $user[ 'verified' ] == 1 ) {
+				$_SESSION[ 'username' ] = $user[ 'username' ];
 				Router::redirect( 'dashboard.php' );
 			}
-			elseif ( password_verify( $data[ 'password' ], $res[ 'password' ] ) && $res[ 'verified' ] == 0 ) {
+			elseif ( password_verify( $data[ 'password' ], $user[ 'password' ] ) && $user[ 'verified' ] == 0 ) {
 				echo 'Please Check Email to Activate your account';
-			}else {
-				echo 'Invalid Password';
+			} else {
+				return $this->errMsg = 'Invalid Password';
 			}
-
 		} catch( PDOException $e ) {
 			die( $e->getMessage() );
 		}
@@ -98,13 +99,14 @@ Class User {
 		if ( !$user )
 			return $this->errMsg = 'User does not exist';
 		try {
-			$query = $this->_pdo->prepare( "UPDATE `users` SET `token` = ? WHERE `username` = ?" );
-			$query->execute( [ hash( 'sha256', $user[ 'email' ] ) . bin2hex( random_bytes(4) ), $username ] );
+			$new_pass = bin2hex( random_bytes(4) ) . 'C@m@gru';
+			$query = $this->_pdo->prepare( "UPDATE `users` SET `password` = ? WHERE `username` = ?" );
+			$query->execute( [ password_hash( $new_pass, PASSWORD_DEFAULT ) , $username ] );
 		} catch ( PDOException $e ) {
 			die( $e->getMessage() );
 		}
 		require_once 'SendMail.class.php';
-		SendMail::resetPassword( $user[ 'email' ], $user[ 'token' ] );
+		SendMail::resetPassword( $user[ 'email' ], $new_pass );
 	}
 
 	public function updateProfile( $username, $password, $field, $value ) {
