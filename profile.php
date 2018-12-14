@@ -10,13 +10,13 @@
                     <input type="email" name="email" placeholder="Email">
                 </div>
                 <div>
-                    <input type="text" name="fname" placeholder="FirstName" >
+                    <input type="text" name="fname" placeholder="FirstName" pattern='[a-zA-Z\-]+'>
                 </div>
                 <div>
-                    <input type="text" name="lname" placeholder="LastName" >
+                    <input type="text" name="lname" placeholder="LastName" pattern='[a-zA-Z\-]+'>
                 </div>
                 <div>
-                    <input type="text" name="username" placeholder="Username" >
+                <input type="text" name="username" placeholder="Username" pattern="\w+" title="letters And/Or numbers are allowed">
                 </div>
                 <div>
                 <?php
@@ -28,10 +28,11 @@
                 ?>
                 </div>
                 <div>
-                    <input type="password" placeholder="New Password" name="new_pass" >
+                    <input type="password" placeholder="New Password" name="new_pass" minlength="6" pattern="(?=\S*\d)(?=\S*[a-z])(?=\S*[A-Z])\S*" 
+								title="Must have digits, caps and small letters">
                 </div>
-                <div>
-                    <input type="password" placeholder="Password" name="password"  required>
+                    <input type="password" placeholder="Password" name="password" required minlength="6" pattern="(?=\S*\d)(?=\S*[a-z])(?=\S*[A-Z])\S*" 
+							title="Must have digits, caps and small letters">
                 </div>
                 <div>
                     <input type="submit" name="updateProfile" value="Update Field(s)"><br />

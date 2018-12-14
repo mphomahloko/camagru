@@ -16,10 +16,11 @@ if ( $_SERVER[ 'REQUEST_METHOD'] == 'POST' ) {
             <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
                     <h1>Camagru</h1>
                     <div class = "inputBox">
-                        <input type="text" placeholder="  Username" name="username" value="<?php echo $username; ?>" required>
+                        <input type="text" name="username" placeholder="Username" value="<?php echo $username; ?>" required pattern="\w+" title="letters And/Or numbers are allowed">
                     </div>
                     <div class = "inputBox">
-                        <input type="password" placeholder="  Password" name="passwrd" required>
+                        <input type="password" placeholder="Password" name="passwrd" required minlength="6" pattern="(?=\S*\d)(?=\S*[a-z])(?=\S*[A-Z])\S*" 
+								title="Must have digits, caps and small letters">
                     </div>
                     <div class = "inputBox">
                         <input type="submit" name="submit" value="Log in">
