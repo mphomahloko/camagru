@@ -2,7 +2,7 @@
 
 $host = "localhost";
 $username = "root";
-$password = "";
+$password = "123456";
 $charset = 'utf8mb4';
 $db = "camagru";
 

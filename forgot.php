@@ -2,8 +2,8 @@
 $username = '';
 ?>
     <div class="reset_password">
-        <h1>Reset Password</h1>
-        <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>">
+        <form id="forgot-password" method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>">
+            <h1>Reset Password</h1>
             <div class = "inputBox">
                 <label>Username: </label>
                 <input type="text" name="username" value="<?php echo $username; ?>" required>
@@ -19,8 +19,8 @@ $username = '';
                 if ( !empty( htmlentities( $_POST[ 'username' ] ) ) && htmlentities( $_POST[ 'submit' ] ) == 'Reset' ) {
                     $username = Input::get( 'username' );
                     $user->sendPassword( $username );
-                    if ( $user->errMsg )
-                    echo '<p style="color:red;">' . $user->errMsg . '</p>';
+                    if ( User::$errMsg )
+                    echo '<p style="color:red;">' . User::$errMsg . '</p>';
                 }
         ?>
 <?php require('footer.php');?>

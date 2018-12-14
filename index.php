@@ -6,31 +6,30 @@ if ( Session::isLoggedIn() )
 $username = '';
 if ( $_SERVER[ 'REQUEST_METHOD'] == 'POST' ) {
 	$data[ 'username' ] = $username =  Input::get( 'username');
-    $data[ 'password' ] = Input::get( 'password' );
+    $data[ 'password' ] = Input::get( 'passwrd' );
+    echo $data[ 'password' ];
     $user->login( $data );
 }
 ?>
 <?php require('header.php');?>
         <div class="box">    
-            <h1>Camagru</h1>
             <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>" >
+                    <h1>Camagru</h1>
                     <div class = "inputBox">
-                        <input type="text" name="username" value="<?php echo $username; ?>" required>
-                        <label>Username: </label>
+                        <input type="text" placeholder="  Username" name="username" value="<?php echo $username; ?>" required>
                     </div>
                     <div class = "inputBox">
-                        <input type="password"  name="passwrd" required>
-                        <label>Password: </label>
+                        <input type="password" placeholder="  Password" name="passwrd" required>
                     </div>
                     <div class = "inputBox">
                         <input type="submit" name="submit" value="Log in">
                         <?php 
-                            if ( $user->errMsg )
-                            echo '<p style="color:red;">' . $user->errMsg . '</p>';
+                            if ( User::$errMsg )
+                            echo '<p style="color:red;">' . User::$errMsg . '</p>';
                         ?>
                         <a href="register.php">Register</a>
                     </div>
-                    <a href="forgot.php">forgot password ?</a>
+                    <a href="forgot.php">Forgot password?</a>
             </form>
         </div>
 <?php require('footer.php');?>

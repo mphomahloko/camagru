@@ -11,7 +11,7 @@
         if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
             if ( Session::isLoggedIn() ) {
                 if ( !empty( htmlentities( $_POST[ 'subject' ] ) ) ) {
-                    $comnt->comment(  htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_POST[ 'username' ] ) , htmlentities( $_POST[ 'subject' ] )  );
+                    $comnt->comment(  htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_SESSION[ 'username' ] ) , htmlentities( $_POST[ 'subject' ] )  );
                 }
                 if ( !empty( htmlentities( $_POST[ 'submit' ] == 'Like' ) ) ) {
                     $like->deleteOrAddLike( htmlentities( $_POST[ 'img_id' ] ), htmlentities( $_SESSION[ 'username' ] ) );

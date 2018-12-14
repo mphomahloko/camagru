@@ -6,7 +6,7 @@ let constraintObj = {
     audio : false,
     video : {
         facingMode: 'user',
-       // width: { min: 640, ideal: 1280, max: 1920 },
+        //width: { min: 640, ideal: 1280, max: 1920 },
         //height: { min: 480, ideal: 720, max: 1080 } 
     }
 };
@@ -48,11 +48,25 @@ navigator.mediaDevices.getUserMedia( constraintObj ).then( function( mediaStream
     console.log( err.name, err.message );
 } );
 
+
 //funtion to draw an image on the canvas once picture is taken
 function snap() {
     var but = document.getElementById( 'but' );
     but.setAttribute( 'type', 'submit' );
     canvas.width = video.clientWidth;
     canvas.height = video.clientHeight;
-    context.drawImage( video, 0, 0 );
+    context.drawImage( video, 0, 0, canvas.width, canvas.height);
+}
+
+//function that enable a draws a sticker onto the canvas
+function draw( x, dx, dy ) {
+    var image = document.getElementById(x);
+    context.drawImage(image, canvas.width - dx, canvas.height - dy, 70, 70);
+}
+
+//function creates the image
+function finalImage() {
+    var element = document.getElementById( 'picture' );
+    var img = canvas.toDataURL( 'image/jpeg' );
+    element.setAttribute('value', img);
 }

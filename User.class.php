@@ -2,7 +2,7 @@
 
 Class User {
 	protected $_pdo;
-	public $errMsg;
+	public static $errMsg;
 
     public function __construct() {
 		$instance = DB::getInstance();
@@ -10,6 +10,14 @@ Class User {
     }
 
     public function register( array $data ) {
+		self::$errMsg = '';
+		$user = self::_getUser( $data[ 'username' ] );
+		if ( $user )
+			return self::$errMsg = 'Username already taken';
+		if ( ! filter_var( $data[ 'email' ], FILTER_VALIDATE_EMAIL) )
+			return self::$errMsg = 'Invalid email';
+		if ( empty( $data[ 'username' ] ) || empty( $data[ 'fname' ] ) || empty( $data[ 'lname' ] ) || empty( $data[ 'email' ] ) || empty( $data[ 'password' ] ) )
+			return self::$errMsg = 'Fill in the required fields';
 		try {
 			$allowed = array ( 'username', 'fname', 'lname', 'email', 'password' );
 			$values = array();
@@ -55,6 +63,7 @@ Class User {
 	}
 
 	public function confirmUser( array $data ) {
+		self::$errMsg = '';
 		try {
 			//modify to be able to get user properly
 			$stmt = $this->_pdo->prepare( "SELECT * FROM `users` WHERE email = ? AND token = ?" );
@@ -74,19 +83,19 @@ Class User {
 	}
 
 	public function login( array $data ) {
-		$this->errMsg = '';
+		self::$errMsg = '';
 		$user = self::_getUser( $data[ 'username' ] );
 		if ( !$user )
-			return $this->errMsg = 'User does not exist';
+			return self::$errMsg = 'User does not exist';
 		try {
 			if ( password_verify( $data[ 'password' ], $user[ 'password' ] ) && $user[ 'verified' ] == 1 ) {
-				$_SESSION[ 'username' ] = $user[ 'username' ];
+				Session::set( 'username' , $user[ 'username' ] );
 				Router::redirect( 'dashboard.php' );
 			}
 			elseif ( password_verify( $data[ 'password' ], $user[ 'password' ] ) && $user[ 'verified' ] == 0 ) {
-				echo 'Please Check Email to Activate your account';
+				return self::$errMsg = 'Please Check Email to Activate your account';
 			} else {
-				return $this->errMsg = 'Invalid Password';
+				return self::$errMsg = 'Invalid Password';
 			}
 		} catch( PDOException $e ) {
 			die( $e->getMessage() );
@@ -94,12 +103,12 @@ Class User {
 	}
 
 	public function sendPassword( $username ) {
-		$this->errMsg = '';
+		self::$errMsg = '';
 		$user = self::_getUser( $username );
 		if ( !$user )
-			return $this->errMsg = 'User does not exist';
+			return self::$errMsg = 'User does not exist';
 		try {
-			$new_pass = bin2hex( random_bytes(4) ) . 'C@m@gru';
+			$new_pass = 'C' . bin2hex( random_bytes(6) ) . '@' . bin2hex( random_bytes(6) );
 			$query = $this->_pdo->prepare( "UPDATE `users` SET `password` = ? WHERE `username` = ?" );
 			$query->execute( [ password_hash( $new_pass, PASSWORD_DEFAULT ) , $username ] );
 		} catch ( PDOException $e ) {
@@ -110,27 +119,35 @@ Class User {
 	}
 
 	public function updateProfile( $username, $password, $field, $value ) {
-		$this->errMsg = '';
+		self::$errMsg = '';
 		$user = self::_getUser( $username ); 
-		if ( !$user ) return $this->errMsg = 'No such user was found';
+		if ( !$user ) return self::$errMsg = 'No such user was found';
 		if ( password_verify( $password, $user[ 'password' ] ) ) {
 			if ( $field == 'username' ) {
 				$new_username = self::_getUser( $value );
 				if ( $new_username[ 'username' ] == $username ) return ;
-				if ( $new_username ) return $this->errMsg = 'Username already in use';
+				if ( $new_username ) return self::$errMsg = 'Username already in use';
+				//update gallery table
 				$query = $this->_pdo->prepare( "UPDATE `gallery` SET `{$field}` = ? WHERE `username` = ?" );
 				$query->execute( [ $value, $username ] );
-				$_SESSION[ 'username' ] = $value;
+				//update comments table
+				$query = $this->_pdo->prepare( "UPDATE `comments` SET `{$field}` = ? WHERE `username` = ?" );
+				$query->execute( [ $value, $username ] );
+				//update likes table
+				$query = $this->_pdo->prepare( "UPDATE `like_pic` SET `{$field}` = ? WHERE `username` = ?" );
+				$query->execute( [ $value, $username ] );
+				Session::set( 'username', $value );
 			}
+			if ( $field == 'password' )
+				$value = password_hash( $value, PASSWORD_DEFAULT );
 			try {
 				$query = $this->_pdo->prepare( "UPDATE `users` SET `{$field}` = ? WHERE `username` = ?" );
 				$query->execute( [ $value, $username ] );
-				self::redirect( 'profile.php' );
 			} catch ( PDOException $e ) {
 				die( $e->getMessage() );
 			}
 		} else {
-			return $this->errMsg = 'Invalid Password';
+			return self::$errMsg = 'Invalid Password';
 		}
 	}
 
@@ -144,11 +161,6 @@ Class User {
 			die( $e->getMessage() );
 		}
 		return $user;
-	}
-	
-	//Modify the logout functionality
-    public function logout() {
-
 	}
 }
 ?>

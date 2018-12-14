@@ -21,11 +21,6 @@ if ( isset( $_POST["submit"] ) ) {
         echo "File is not an image.";
         $uploadOk = 0;
     }
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
     // Check file size
     if ($_FILES["fileToUpload"]["size"] > 500000) {
         echo "Sorry, your file is too large.";
@@ -60,6 +55,19 @@ if ( isset( $_POST["submit"] ) ) {
         <input type="file" name="fileToUpload" id="fileToUpload">
         <input type="submit" value="Upload Image" name="submit" ></p>
     </form><br />
+    <div class="container">
+    <h2>Recent photos</h2>
+    <?php
+        $pic = new Pictures();
+        $use = $pic->getUserGallery( $_SESSION[ 'username' ] );
+        $k = 0;
+        while ( isset( $use[ $k ] ) && $k < 5 ) {
+            echo '<div class="gallery">
+                    <img src="' . $use[ $k++ ][ "path" ] . '" alt="">
+            </div>';
+        }
+    ?>    
+</div>
     <script type="text/javascript" src="js/upload.js"></script>
     <script type="text/javascript" src="js/custom.js"></script>
 <?php require('footer.php');?>

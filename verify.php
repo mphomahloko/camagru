@@ -6,7 +6,7 @@ if ( isset( $_GET[ 'token' ] ) && isset( $_GET[ 'email' ] ) ) {
     $data[ 'email' ] = Input::get('email' );
     $data[ 'verified' ] = 1;
     $user->confirmUser( $data );
-    $user->redirect( 'index.php' );
+    Router::redirect( 'index.php' );
 }
 ?>
 <?php require('footer.php');?>

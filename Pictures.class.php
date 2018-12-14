@@ -38,6 +38,15 @@ Class Pictures extends User {
             $sql = "DELETE FROM `gallery` WHERE `img_Id` = ?";
             $query = $this->_pdo->prepare( $sql );
             $query->execute( [ $img_Id ] );
+
+            $sql = "DELETE FROM `like_pic` WHERE `img_Id` = ?";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( [ $img_Id ] );
+
+            $sql = "DELETE FROM `comments` WHERE `img_Id` = ?";
+            $query = $this->_pdo->prepare( $sql );
+            $query->execute( [ $img_Id ] );
+            
         } catch ( PDOException $e ) {
             die( $e->getMessage() );
         } 

@@ -7,7 +7,7 @@
         <div>
             <form method="post" action="<?php echo htmlspecialchars( $_SERVER[ 'PHP_SELF' ] ); ?>">
                 <div>
-                    <input type="text" name="email" placeholder="Email">
+                    <input type="email" name="email" placeholder="Email">
                 </div>
                 <div>
                     <input type="text" name="fname" placeholder="FirstName" >
@@ -50,8 +50,8 @@
                     if ( !empty( $_POST[ 'fname' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], Input::get( 'password' ), 'fname', Input::get( 'fname' ) );
                     if ( !empty( $_POST[ 'lname' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], Input::get( 'password' ), 'lname', Input::get( 'lname' ) );
                     if ( !empty( $_POST[ 'new_pass' ] ) ) $user->updateProfile( $_SESSION[ 'username' ], Input::get( 'password' ), 'password', Input::get( 'new_pass' ) );
-                    if ( $user->errMsg )
-                        echo '<p style="color:red;">' . $user->errMsg . '</p>';
+                    if ( User::$errMsg )
+                        echo '<p style="color:red;">' . User::$errMsg . '</p>';
            }
 ?>
 <?php require('footer.php');?>
