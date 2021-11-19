@@ -1,9 +1,9 @@
 <?php
 
-$host = "localhost";
-$root = "root";
-$pass = "123456";
-$newdb = "camagru";
+$host = "${DB_HOST}";
+$root = "${DB_USER}";
+$pass = "${DB_PASS}";
+$newdb = "${DB}";
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
