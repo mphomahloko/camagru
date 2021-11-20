@@ -1,18 +1,19 @@
 <?php
 
-$host = "${DB_HOST}";
-$root = "${DB_USER}";
-$pass = "${DB_PASS}";
-$newdb = "${DB}";
+$host = $_ENV['DB_HOST'];
+$root = $_ENV['DB_USER'];
+$pass = $_ENV['DB_PASS'];
+$db = $_ENV['DB'];
+$port = $_ENV['DB_PORT'];
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 ];
 
 try {
-    $dbh = new PDO( "mysql:host=$host", $root, $pass, $options );
-    $dbh->exec("CREATE DATABASE IF NOT EXISTS camagru");
-    $dbh->exec( "CREATE TABLE IF NOT EXISTS `camagru`.`users` ( 
+    $dbh = new PDO( "mysql:host=$host;port=$port", $root, $pass, $options );
+    $dbh->exec("CREATE DATABASE IF NOT EXISTS $db");
+    $dbh->exec( "CREATE TABLE IF NOT EXISTS `$db`.`users` ( 
         `user_Id` INT(255) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
         `username` VARCHAR(30) NOT NULL ,
         `fname` VARCHAR(20) NOT NULL ,
@@ -23,19 +24,19 @@ try {
         `verified` INT(2) NOT NULL DEFAULT 0,
         `notifications` TINYINT(2) NOT NULL DEFAULT 1
         );" );
-    $dbh->exec( "CREATE TABLE IF NOT EXISTS `camagru`.`gallery` ( 
+    $dbh->exec( "CREATE TABLE IF NOT EXISTS `$db`.`gallery` ( 
         `img_Id` INT(255) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
         `username` VARCHAR(30) NOT NULL ,
         `path` VARCHAR(255) NOT NULL,
         `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         );" );
-    $dbh->exec( "CREATE TABLE IF NOT EXISTS`camagru`.`comments` (
+    $dbh->exec( "CREATE TABLE IF NOT EXISTS`$db`.`comments` (
         `comment_Id` INT NOT NULL AUTO_INCREMENT ,
         `img_Id` INT NOT NULL ,
         `username` VARCHAR(30) NOT NULL ,
         `comment` TEXT NOT NULL ,
         PRIMARY KEY (`comment_id`));" );
-    $dbh->exec( "CREATE TABLE IF NOT EXISTS `camagru`.`like_pic` (
+    $dbh->exec( "CREATE TABLE IF NOT EXISTS `$db`.`like_pic` (
         `like_Id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         `img_Id` INT NOT NULL,
         `username` VARCHAR(30)

@@ -3,6 +3,12 @@ version: "3.7"
 services:
   web:
     build: app
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB=${DB}
     ports:
       - '80:80'
     volumes:
@@ -14,7 +20,7 @@ services:
     command: '--default-authentication-plugin=mysql_native_password'
     restart: always
     ports:
-      - 3306:3306
+      - ${DB_PORT}:${DB_PORT}
     environment:
-      MYSQL_ROOT_PASSWORD: '${ROOT_PASS}'
+      MYSQL_ROOT_PASSWORD: '${DB_PASS}'
       MYSQL_DATABASE: '${DB}'
