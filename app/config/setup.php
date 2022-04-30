@@ -11,7 +11,7 @@ $options = [
 ];
 
 try {
-    $dbh = new PDO( "mysql:host=$host;port=$port", $root, $pass, $options );
+    $dbh = new PDO( "mysql:host=$host;dbname=$db", $root, $pass, $options );
     $dbh->exec("CREATE DATABASE IF NOT EXISTS $db");
     $dbh->exec( "CREATE TABLE IF NOT EXISTS `$db`.`users` ( 
         `user_Id` INT(255) NOT NULL AUTO_INCREMENT  PRIMARY KEY,
