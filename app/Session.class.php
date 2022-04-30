@@ -25,9 +25,7 @@ Class Session {
     
     //verifying if the user is logged in or not
 	public static function isLoggedIn() {
-        if ( !isset( $_SESSION[ 'username' ] ) )
-            return false;
-        return true;
+        return !isset( $_SESSION[ 'username' ] );
     }
 
     public static function destroy() {
