@@ -1,4 +1,4 @@
 <?php
-require_once 'config/config.php';
-Session::destroy();
+    require_once 'config/config.php';
+    Session::destroy();
 ?>
